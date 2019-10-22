@@ -1,0 +1,40 @@
+{
+    "manifest_version": 2,
+    "name": "Kenteken, pls",
+    "description": "Gemakkelijk testen met kentekens, kies een categorie en kenteken, pls zal een willekeurig (actief) kenteken invoegen in het veld.",
+    "version": "1.0",
+    "permissions": [
+        "contextMenus",
+        "*://opendata.rdw.nl/resource/m9d7-ebf2.json"
+    ],
+    "commands": {
+        "kenteken-pls": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+K",
+                "mac": "Command+Shift+K"
+            },
+            "description": "Kenteken invoegen"
+        }
+    },
+    "icons": {
+        "16": "icons/16.png",
+        "48": "icons/48.png",
+        "128": "icons/128.png"
+    },
+    "background": {
+        "scripts": [
+            "dist/background/index.js"
+        ],
+        "persistent": false
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "dist/app/index.js"
+            ]
+        }
+    ]
+}
