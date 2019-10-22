@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/Droeftoeter/kentekenpls-ext#readme",
   "scripts": {
-    "clean": "rimraf extension/dist/ && rimraf .cache && rimraf node_modules",
+    "clean": "rimraf extension/dist/",
     "build": "npm run clean && parcel build src/app/index.js src/background/index.js -d extension/dist/ --no-source-maps",
     "watch": "npm run clean && parcel watch src/app/index.js src/background/index.js -d extension/dist/"
   },
