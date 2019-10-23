@@ -16,25 +16,33 @@ function createMenu() {
 };
 
 /**
- * Send a message to the content-script of the active tab if the shortcut is pressed.
+ * Injects script into the active tab
+ */
+function inject() {
+    chrome.tabs.executeScript({
+        file: 'dist/app/index.js',
+    });
+}
+
+/**
+ * Inject the script when the shortcut is pressed.
  */
 chrome.commands.onCommand.addListener(
     name => {
-        chrome.tabs.query(
-            { active: true, currentWindow: true },
-            tabs => {
-                chrome.tabs.sendMessage(tabs[ 0 ].id, { id: name });
-            }
-        );
+        if (name === 'kenteken-pls') {
+            inject();
+        }
     }
 );
 
 /**
- * Send a message to the content-script when the menu is clicked.
+ * Inject the script when the context-menu is clicked.
  */
 chrome.contextMenus.onClicked.addListener(
-    ({ menuItemId }, tab) => {
-        chrome.tabs.sendMessage(tab.id, { id: menuItemId });
+    ({ menuItemId }) => {
+        if (menuItemId === 'kenteken-pls') {
+            inject();
+        }
     }
 );
 

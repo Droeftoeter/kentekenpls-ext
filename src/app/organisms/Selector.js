@@ -190,10 +190,10 @@ const Selector = ({ onVehicle, onCancel }) => {
                             Where.GeenTaxi,
                             Where.GeenOldtimer,
                             Where.GeenCamper,
-                            `datum_eerste_afgifte_nederland >= ${ DateTime.local().plus({ days: -1 }).toFormat('yyyyLLdd') }`,
+                            `datum_eerste_afgifte_nederland >= ${ DateTime.local().plus({ days: -2 }).toFormat('yyyyLLdd') }`,
                         ] }                    
                     >
-                        Sinds gisteren op kenteken
+                        Recent op kenteken
                     </QueryOption>
                     <QueryOption
                         onClick={ handleSelect }

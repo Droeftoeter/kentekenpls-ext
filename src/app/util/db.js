@@ -63,6 +63,11 @@ export default function useRandomVehicle() {
 
             if (!storedVehicles.length) {
                 const fetchedVehicles = await fetchVehicles(where);
+
+                if (!fetchedVehicles.length) {
+                    throw 'Geen resultaten gevonden.';
+                }
+                
                 const vehicle = fetchedVehicles.shift();
 
                 callback(vehicle);

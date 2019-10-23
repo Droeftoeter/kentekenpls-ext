@@ -34,6 +34,8 @@ function injectApp(targetElement) {
         target.remove();
 
         targetElement.focus();
+
+        window.__kentekenpls_active = false;
     };
 
     const handleVehicle = vehicle => {
@@ -48,6 +50,7 @@ function injectApp(targetElement) {
     ReactDOM.render(
         <App
             styleContainer={ styleContainer }
+            targetElement={ targetElement }
             onVehicle={ handleVehicle }
             onCancel={ handleCancel }
         />,
@@ -58,21 +61,10 @@ function injectApp(targetElement) {
 }
 
 /**
- * Check if the element is INPUT or TEXTAREA
- *
- * @param {Element} element 
+ * Only have a single active instance on the page.
  */
-function isValidTag (element) {
-    return ['INPUT', 'TEXTAREA'].includes(element.tagName.toUpperCase());
-}
+if (!window.__kentekenpls_active) {
+    window.__kentekenpls_active = true;
 
-/**
- * Wait for a signal from either the shortcut or context-menu and render the selection interface.
- */
-chrome.runtime.onMessage.addListener(
-    ({ id }) => {
-        if (id === 'kenteken-pls' && document.activeElement && isValidTag(document.activeElement)) {
-            injectApp(document.activeElement);
-        }
-    }
-);
+    injectApp(document.activeElement);
+}
