@@ -1,14 +1,14 @@
 {
   "name": "kentekenpls-ext",
   "version": "1.0.1",
-  "description": "",
-  "main": "src/main.js",
+  "description": "Gemakkelijk testen met kentekens, kies een categorie en kenteken, pls zal een willekeurig (actief) kenteken invoegen in het veld.",
+  "main": "src/app/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Droeftoeter/kentekenpls-ext.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Freek Post <freek@kobalt.blue>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Droeftoeter/kentekenpls-ext/issues"
   },
