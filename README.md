@@ -1,5 +1,12 @@
 # Kenteken, pls Browser Extension
 
+## Installation
+
+Install the latest version from the Chrome Webstore or Mozilla Addons depending on your browser.
+
+* [Chrome Webstore](https://chrome.google.com/webstore/detail/kenteken-pls/ocofecjaanlckfpomkkbbanmlolgdkgh) for Google Chrome
+* [Mozilla Addons](https://addons.mozilla.org/nl/firefox/addon/kenteken-pls/) for FireFox
+
 ## Development
 
 ### Requirements
