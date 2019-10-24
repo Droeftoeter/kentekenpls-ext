@@ -1,6 +1,6 @@
 {
   "name": "kentekenpls-ext",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Gemakkelijk testen met kentekens, kies een categorie en kenteken, pls zal een willekeurig (actief) kenteken invoegen in het veld.",
   "main": "src/app/index.js",
   "repository": {
@@ -16,7 +16,7 @@
   "scripts": {
     "clean": "rimraf extension/dist/",
     "build": "npm run clean && parcel build src/app/index.js src/background/index.js -d extension/dist/ --no-source-maps",
-    "watch": "npm run clean && parcel watch src/app/index.js src/background/index.js -d extension/dist/"
+    "watch": "npm run clean && parcel watch src/app/index.js src/background/index.js -d extension/dist/ --no-hmr"
   },
   "dependencies": {
     "@vcnkit/core": "^1.2.0",
@@ -24,6 +24,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "dexie": "^2.0.4",
+    "framer-motion": "^1.6.15",
     "ky": "^0.15.0",
     "luxon": "^1.19.3",
     "parcel-bundler": "^1.12.4",

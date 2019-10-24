@@ -16,6 +16,20 @@ function isValidTag (element) {
 }
 
 /**
+ * Gets the element's position
+ * 
+ * @param {Element} element 
+ */
+function getTargetElementPosition (element) {
+    const { top, height, left } = element.getBoundingClientRect();
+
+    return {
+        left,
+        top: top + height,
+    };
+}
+
+/**
  * Application root
  * Passing the styleContainer fixes styling issues while being rendered inside of a shadow-root.
  * 
@@ -28,20 +42,21 @@ const App = ({ styleContainer, targetElement, onVehicle, onCancel }) => (
     <StyleSheetManager
         target={ styleContainer }
     >
-        <Blanket>
-            { isValidTag(targetElement) ? (
-                <Selector
-                    onVehicle={ onVehicle }
-                    onCancel={ onCancel }
-                />
-            ) : (
+        { isValidTag(targetElement) ? (
+            <Selector
+                onVehicle={ onVehicle }
+                onCancel={ onCancel }
+                { ...getTargetElementPosition(targetElement) }
+            />
+        ) : (
+            <Blanket>
                 <Error
                     onClose={ onCancel }
                 >
                     Kenteken, pls werkt helaas nog niet voor het huidige element.
                 </Error>
-            ) }
-        </Blanket>
+            </Blanket>
+        ) }
     </StyleSheetManager>
 );
 

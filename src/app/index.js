@@ -21,6 +21,8 @@ function injectApp(targetElement) {
         :host {
             display: block;
         }
+
+        font-family: Tahoma, Geneva, sans-serif;
     `;
 
     shadowRoot.appendChild(styleContainer);
@@ -32,8 +34,6 @@ function injectApp(targetElement) {
     const handleCancel = () => {
         ReactDOM.unmountComponentAtNode(appContainer);
         target.remove();
-
-        targetElement.focus();
 
         window.__kentekenpls_active = false;
     };

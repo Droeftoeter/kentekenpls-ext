@@ -1,3 +1,5 @@
+import fetchVehicle from './db';
+
 /**
  * Creates context-menu items
  */
@@ -23,6 +25,33 @@ function inject() {
         file: 'dist/app/index.js',
     });
 }
+
+/**
+ * Wait for a vehicle request.
+ */
+chrome.runtime.onMessage.addListener(
+    ({ action, payload = {} }, _, callback) => {
+        if (action === 'fetch-vehicle') {
+            const { id, where } = payload;
+
+            const fetch = async () => {
+                try {
+                    await fetchVehicle(
+                        id,
+                        where,
+                        vehicle => callback({ resolved: vehicle })
+                    );
+                } catch (e) {
+                    callback({ error: e });
+                }
+            };
+
+            fetch();
+
+            return true;
+        }
+    },
+);
 
 /**
  * Inject the script when the shortcut is pressed.

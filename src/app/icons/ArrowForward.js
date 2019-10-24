@@ -1,5 +1,9 @@
 import React from 'react';
 
+/**
+ * @copyright Google
+ * @see https://github.com/google/material-design-icons
+ */
 const ArrowForward = props => (
     <svg
         width="24"

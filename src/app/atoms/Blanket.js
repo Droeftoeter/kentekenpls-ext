@@ -10,7 +10,7 @@ export default styled.div`
 
     padding:  1rem;
 
-    background: hsla(0, 0%, 0%, .24);
+    background: hsla(0, 0%, 0%, .12);
 
     display:        flex;
     flex-direction: row;

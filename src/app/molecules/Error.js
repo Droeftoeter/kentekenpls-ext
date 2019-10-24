@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ActionBar from '@vcnkit/core/ActionBar';
 import { Primary } from '@vcnkit/core/Button';
 
-import { SadCat } from '../atoms';
+import { SadCat } from '../emoji';
 
 const Error = ({ className, children, onClose }) => (
     <div
@@ -33,6 +33,7 @@ export default styled(Error)`
     background:    #FFFFFF;
     border-radius: .25rem;
     margin:        auto;
+    box-shadow:    0 0 0.125rem hsla(0, 0%, 0%, 0.12), 0 0.125rem 0.25rem hsla(0, 0%, 0%, 0.24);
 
     display:        flex;
     flex-direction: column;
