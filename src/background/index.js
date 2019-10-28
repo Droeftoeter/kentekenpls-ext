@@ -42,7 +42,7 @@ chrome.runtime.onMessage.addListener(
                         vehicle => callback({ resolved: vehicle })
                     );
                 } catch (e) {
-                    callback({ error: e });
+                    callback({ error: e.toString() });
                 }
             };
 

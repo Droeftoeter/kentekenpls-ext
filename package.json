@@ -1,6 +1,6 @@
 {
   "name": "kentekenpls-ext",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Gemakkelijk testen met kentekens, kies een categorie en kenteken, pls zal een willekeurig (actief) kenteken invoegen in het veld.",
   "main": "src/app/index.js",
   "repository": {
@@ -29,8 +29,8 @@
     "luxon": "^1.19.3",
     "parcel-bundler": "^1.12.4",
     "prop-types": "^15.7.2",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
     "react-shadow-dom-retarget-events": "^1.0.10",
     "rimraf": "^3.0.0",
     "styled-components": "^4.4.0"

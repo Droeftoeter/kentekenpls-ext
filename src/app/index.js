@@ -41,8 +41,8 @@ function injectApp(targetElement) {
     const handleVehicle = vehicle => {
         targetElement.value = vehicle.kenteken;
 
-        const event = new Event('change', { bubbles: true });
-        targetElement.dispatchEvent(event);
+        targetElement.dispatchEvent(new Event('change', { bubbles: true }));
+        targetElement.dispatchEvent(new Event('blur', { bubbles: true }));
 
         handleCancel();
     }

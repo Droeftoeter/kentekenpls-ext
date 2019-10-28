@@ -15,7 +15,7 @@ export default function useRandomVehicle() {
         } catch (e) {
             console.error(e);
 
-            setError(String(e));
+            setError(e);
             setLoading(false);
         }
     };
