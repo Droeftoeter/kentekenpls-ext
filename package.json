@@ -19,21 +19,20 @@
     "watch": "npm run clean && parcel watch src/app/index.js src/background/index.js -d extension/dist/ --no-hmr"
   },
   "dependencies": {
-    "@vcnkit/core": "^1.2.0",
-    "@vcnkit/progress": "^1.0.0",
+    "@vcnkit/core": "^1.3.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "dexie": "^2.0.4",
-    "framer-motion": "^1.6.15",
-    "ky": "^0.15.0",
-    "luxon": "^1.19.3",
+    "framer-motion": "^1.8.4",
+    "ky": "^0.18.0",
+    "luxon": "^1.22.0",
     "parcel-bundler": "^1.12.4",
     "prop-types": "^15.7.2",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
-    "react-shadow-dom-retarget-events": "^1.0.10",
-    "rimraf": "^3.0.0",
-    "styled-components": "^4.4.0"
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-shadow-dom-retarget-events": "^1.0.11",
+    "rimraf": "^3.0.2",
+    "styled-components": "^5.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3"
