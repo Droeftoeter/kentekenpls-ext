@@ -10,18 +10,20 @@ import { Header, Slider, Error } from '../molecules';
 import categories from '../categories';
 
 import useRandomVehicle from '../hooks/useRandomVehicle';
-import useSelectionState from './selectionState';
+import useNavigationStack from '../hooks/useNavigationStack';
 
 const Selector = ({ className, top, left, onVehicle, onCancel }) => {
-    const { state: { level, activeRoot, activeChild, category }, enterCategory, leaveCategory } = useSelectionState();
+    const { stack, activeChild, push, pop } = useNavigationStack(categories);
     const { getVehicle, loading, error } = useRandomVehicle();
+
+    const category = stack.slice(-1).shift();
 
     /**
      * Deal with keyboard shortcuts
      */
     useEffect(
         () => {
-            const handleKeyDown = ({ key }) => {
+            const handleKeyDown = async ({ key }) => {
                 if (key === 'Escape') {
                     onCancel();
                 }
@@ -29,8 +31,8 @@ const Selector = ({ className, top, left, onVehicle, onCancel }) => {
                 if (category && (key === 'Enter' || key === ' ' || key === 'ArrowRight')) {
                     const query = category.items[ activeChild ];
 
-                    if (query) {
-                        getVehicle(query.id, query.where, onVehicle);
+                    if (query.where) {
+                        await getVehicle(query.id, query.where, onVehicle);
                     }
                 }
             };
@@ -65,12 +67,12 @@ const Selector = ({ className, top, left, onVehicle, onCancel }) => {
                 <motion.div
                     initial={ { height: 0 } }
                     animate={ {
-                        height: loading ? '3rem' : `${ (level === 0 ? categories.length : category ? category.items.length : 0) * 3 + 3 }rem` 
+                        height: loading ? '3rem' : `${ category.items.length * 3 + 3 }rem`
                     } }
                     transition={ { ease: "easeInOut", duration: 0.2 } }
                 >
                     <Header
-                        onBack={ level > 0 ? leaveCategory : undefined }
+                        onBack={ stack.length > 1 ? pop : undefined }
                         onCancel={ !loading ? onCancel : undefined }
                         loading={ loading }
                     >
@@ -78,37 +80,36 @@ const Selector = ({ className, top, left, onVehicle, onCancel }) => {
                     </Header>
                     { !loading && (
                         <Slider
-                            index={ level }
+                            index={ stack.length - 1 }
                         >
-                            <div>
-                                { categories.map(
-                                    (category, index) => (
-                                        <Option
-                                            key={ category.id }
-                                            icon={ <Icons.ArrowForward /> }
-                                            active={ activeRoot === index }
-                                            onClick={ () => enterCategory(category) }
-                                        >
-                                            { category.title }
-                                        </Option>
-                                    )
-                                ) }
-                            </div>
-                            { category && (
-                                <div>
-                                    { category.items.map(
-                                        ({ id, title, where }, index) => (
-                                            <Option
-                                                key={ id }
-                                                icon={ <Icons.Input /> }
-                                                active={ activeChild === index }
-                                                onClick={ () => getVehicle(id, where, onVehicle) }
-                                            >
-                                                { title }
-                                            </Option>
-                                        )
-                                    ) }
-                                </div>
+                            { stack.map(
+                                category => (
+                                    <div
+                                        key={ category.id }
+                                    >
+                                        { category.items.map(
+                                            (item, index) => item.items ? (
+                                                <Option
+                                                    key={ item.id }
+                                                    icon={ <Icons.ArrowForward /> }
+                                                    active={ activeChild === index }
+                                                    onClick={ () => push(item) }
+                                                >
+                                                    { item.title }
+                                                </Option>
+                                            ) : (
+                                                <Option
+                                                    key={ item.id }
+                                                    icon={ <Icons.Input /> }
+                                                    active={ activeChild === index }
+                                                    onClick={ () => getVehicle(item.id, item.where, onVehicle) }
+                                                >
+                                                    { item.title }
+                                                </Option>
+                                            )
+                                        ) }
+                                    </div>
+                                )
                             ) }
                         </Slider>
                     ) }

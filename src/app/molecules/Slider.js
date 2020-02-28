@@ -10,7 +10,7 @@ const StyledMotion = styled(motion.div)`
     & > * {
         flex: 0 0 15rem;
     }    
-`
+`;
 
 const Slider = ({ className, index = 0, children }) => (
     <div
@@ -18,7 +18,7 @@ const Slider = ({ className, index = 0, children }) => (
     >
         <StyledMotion
             initial={ { x: 0 } }
-            animate={ { x: index === 0 ? 0 : '-15rem' } }
+            animate={ { x: index === 0 ? 0 : `-${ index * 15 }rem` } }
             transition={ { ease: "easeInOut", duration: 0.2 } }
         >
             { children }
@@ -28,7 +28,7 @@ const Slider = ({ className, index = 0, children }) => (
 
 Slider.propTypes = {
     className: PropTypes.string,
-    index:     PropTypes.oneOf([0, 1]).isRequired,
+    index:     PropTypes.number.isRequired,
     children:  PropTypes.node.isRequired,
 };
 
