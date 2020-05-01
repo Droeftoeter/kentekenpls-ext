@@ -6,8 +6,8 @@ import App from './App';
 
 /**
  * Create a node with a shadow-root, and render the selection interface.
- * 
- * @param {Element} targetElement 
+ *
+ * @param {Element} targetElement
  */
 function injectApp(targetElement) {
     const target = document.createElement('div');
@@ -31,11 +31,11 @@ function injectApp(targetElement) {
 
     document.body.appendChild(target);
 
-    const handleCancel = () => {
+    const removeApp = () => {
         ReactDOM.unmountComponentAtNode(appContainer);
         target.remove();
 
-        window.__kentekenpls_active = false;
+        window.__kentekenpls_remove = null;
     };
 
     const handleVehicle = vehicle => {
@@ -44,7 +44,7 @@ function injectApp(targetElement) {
         targetElement.dispatchEvent(new Event('change', { bubbles: true }));
         targetElement.dispatchEvent(new Event('blur', { bubbles: true }));
 
-        handleCancel();
+        removeApp();
     }
 
     ReactDOM.render(
@@ -52,19 +52,21 @@ function injectApp(targetElement) {
             styleContainer={ styleContainer }
             targetElement={ targetElement }
             onVehicle={ handleVehicle }
-            onCancel={ handleCancel }
+            onCancel={ removeApp }
         />,
         appContainer
     );
 
     retargetEvents(shadowRoot);
+
+    return removeApp;
 }
 
 /**
- * Only have a single active instance on the page.
+ * Remove previous instances of kentekenpls.
  */
-if (!window.__kentekenpls_active) {
-    window.__kentekenpls_active = true;
-
-    injectApp(document.activeElement);
+if (typeof window.__kentekenpls_remove === 'function') {
+    window.__kentekenpls_remove();
 }
+
+window.__kentekenpls_remove = injectApp(document.activeElement);
