@@ -9,7 +9,7 @@ import { Selector } from './organisms';
 /**
  * Check if the element is INPUT or TEXTAREA
  *
- * @param {Element} element 
+ * @param {Element} element
  */
 function isValidTag (element) {
     return ['INPUT', 'TEXTAREA'].includes(element.tagName.toUpperCase());
@@ -17,22 +17,23 @@ function isValidTag (element) {
 
 /**
  * Gets the element's position
- * 
- * @param {Element} element 
+ *
+ * @param {Element} element
  */
 function getTargetElementPosition (element) {
     const { top, height, left } = element.getBoundingClientRect();
+    const { scrollX, scrollY } = window;
 
     return {
-        left,
-        top: top + height,
+        left: left + scrollX,
+        top:  top + height + scrollY,
     };
 }
 
 /**
  * Application root
  * Passing the styleContainer fixes styling issues while being rendered inside of a shadow-root.
- * 
+ *
  * @param {Element}  styleContainer
  * @param {Element}  targetElement
  * @param {Function} onVehicle

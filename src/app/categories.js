@@ -26,6 +26,8 @@ const Where = {
 
     // Wielen
     TweeWielen:    "aantal_wielen = 2",
+    DrieWielen:    "aantal_wielen = 3",
+    VierWielen:    "aantal_wielen = 4",
 
     // Constr.Snelheid
     Max45:         "maximale_constructiesnelheid_brom_snorfiets = 45",
@@ -43,15 +45,56 @@ const Where = {
     GeenTaxi:     "taxi_indicator = 'Nee'",
     WelTaxi:      "taxi_indicator = 'Ja'",
 
-    // Europese categorieen (https://www.transportpolicy.net/standard/eu-vehicle-definitions/)
-    L1:        "europese_voertuigcategorie = 'L1'",
-    M1:        "europese_voertuigcategorie = 'M1'",
-    N1:        "europese_voertuigcategorie = 'N1'",
-    N2:        "europese_voertuigcategorie = 'N2'",
-    N3:        "europese_voertuigcategorie = 'N3'",
-
     // Export
     NietExport: "export_indicator = 'Nee'",
+
+    /*
+     * Europese categorieen
+     *
+     * https://www.transportpolicy.net/standard/eu-vehicle-definitions/
+     */
+
+    /* Brom- en snorfietsen, motoren, trikes en quads */
+    // 2 wielen, maximaal 45 km/h en een motorinhoud kleiner dan 50 cm3 of een maximaal continu vermogen van 4 kW voor elektrische motoren
+    EuroL1e: "europese_voertuigcategorie = 'L1' AND europese_voertuigcategorie_toevoeging = 'e'",
+    // 3 wielen, maximaal 45 km/h en een motorinhoud kleiner dan 50 cm3 of een maximaal continu vermogen van 4 kW voor elektrische motoren
+    EuroL2e: "europese_voertuigcategorie = 'L2' AND europese_voertuigcategorie_toevoeging = 'e'",
+    // 2 wielen, geen zijspan en meer vermogen dan L1e.
+    EuroL3e: "europese_voertuigcategorie = 'L3' AND europese_voertuigcategorie_toevoeging = 'e'",
+    // 2 wielen + zijspanen meer vermogen dan L1e
+    EuroL4e: "europese_voertuigcategorie = 'L4' AND europese_voertuigcategorie_toevoeging = 'e'",
+    // 3 symmetrische wielen en meer vermogen dan L2e
+    EuroL5e: "europese_voertuigcategorie = 'L5' AND europese_voertuigcategorie_toevoeging = 'e'",
+    // Quads die niet meer wegen dan 350 kg (excl. accupack) + eigenschappen L2e
+    EuroL6e: "europese_voertuigcategorie = 'L6' AND europese_voertuigcategorie_toevoeging = 'e'",
+    // Quads met een ongeladen massa van niet meer dan 400 kg (of 550 kg bij een quad voor goederenvervoer) met een maximaal vermogen van 15 kW
+    EuroL7e: "europese_voertuigcategorie = 'L7' AND europese_voertuigcategorie_toevoeging = 'e'",
+
+    /* Vierwielige voertuigen geschikt voor het vervoeren van passagiers */
+    // Maximaal 8 extra zitplaatsen en een maximale technische massa van 3500 kg.
+    EuroM1: "europese_voertuigcategorie = 'M1'",
+    // Meer dan 8 extra zitplaatsen en een maximale technische massa van 5000 kg.
+    EuroM2: "europese_voertuigcategorie = 'M2'",
+    // Meer dan 8 extra zitplaatsen en een maximale technische massa van meer dan 5000 kg.
+    EuroM3: "europese_voertuigcategorie = 'M3'",
+
+    /* Vierwielige voertuigen geschikt voor het vervoeren van goederen */
+    // Maximale technische massa van 3500 kg
+    EuroN1: "europese_voertuigcategorie = 'N1'",
+    // Maximale technische massa van 12.000 kg
+    EuroN2: "europese_voertuigcategorie = 'N2'",
+    // Maximale technische massa van meer dan 12.000 kg
+    EuroN3: "europese_voertuigcategorie = 'N3'",
+
+    /* Aanhangers en opleggers */
+    // Aanhangwagen/Oplegger met een maximale technische massa van 750 kg
+    EuroO1: "europese_voertuigcategorie = 'O1'",
+    // Aanhangwagen/Oplegger met een maximale technische massa tussen 751 kg en 3500 kg
+    EuroO2: "europese_voertuigcategorie = 'O2'",
+    // Aanhangwagen/Oplegger met een maximale technische massa tussen 3501 kg en 10.000 kg
+    EuroO3: "europese_voertuigcategorie = 'O3'",
+    // Aanhangwagen/Oplegger met een maximale technische massa van meer dan 10.000 kg
+    EuroO4: "europese_voertuigcategorie = 'O4'",
 };
 
 const categories = {
@@ -68,7 +111,7 @@ const categories = {
                     where: [
                         Where.NietExport,
                         Where.Personenauto,
-                        Where.M1,
+                        Where.EuroM1,
                         Where.GeenTaxi,
                         Where.GeenOldtimer,
                         Where.GeenCamper,
@@ -80,7 +123,7 @@ const categories = {
                     where: [
                         Where.NietExport,
                         Where.Personenauto,
-                        Where.M1,
+                        Where.EuroM1,
                         Where.GeenTaxi,
                         Where.GeenOldtimer,
                         Where.GeenCamper,
@@ -93,7 +136,7 @@ const categories = {
                     where: [
                         Where.NietExport,
                         Where.Personenauto,
-                        Where.M1,
+                        Where.EuroM1,
                         Where.GeenTaxi,
                         Where.GeenOldtimer,
                         Where.GeenCamper,
@@ -102,15 +145,90 @@ const categories = {
                 },
                 {
                     id:    'personenauto-catwaarde',
-                    title: 'Hoge cataloguswaarde',
-                    where: [
-                        Where.NietExport,
-                        Where.Personenauto,
-                        Where.M1,
-                        Where.GeenTaxi,
-                        Where.GeenOldtimer,
-                        Where.GeenCamper,
-                        "catalogusprijs > 80000",
+                    title: 'Cataloguswaarde',
+                    items: [
+                        {
+                            id:    'personenauto-catwaarde-0-20k',
+                            title: 'tot € 20.000',
+                            where: [
+                                Where.NietExport,
+                                Where.Personenauto,
+                                Where.EuroM1,
+                                Where.GeenTaxi,
+                                Where.GeenOldtimer,
+                                Where.GeenCamper,
+                                "catalogusprijs < 20000",
+                            ],
+                        },
+                        {
+                            id:    'personenauto-catwaarde-20k-35k',
+                            title: '€ 20.000 tot € 35.000',
+                            where: [
+                                Where.NietExport,
+                                Where.Personenauto,
+                                Where.EuroM1,
+                                Where.GeenTaxi,
+                                Where.GeenOldtimer,
+                                Where.GeenCamper,
+                                "catalogusprijs >= 20000",
+                                "catalogusprijs < 35000",
+                            ],
+                        },
+                        {
+                            id:    'personenauto-catwaarde-35k-50k',
+                            title: '€ 35.000 tot € 50.000',
+                            where: [
+                                Where.NietExport,
+                                Where.Personenauto,
+                                Where.EuroM1,
+                                Where.GeenTaxi,
+                                Where.GeenOldtimer,
+                                Where.GeenCamper,
+                                "catalogusprijs >= 35000",
+                                "catalogusprijs < 50000",
+                            ],
+                        },
+                        {
+                            id: 'personenauto-catwaarde-50k-70k',
+                            title: '€ 50.000 tot € 70.000',
+                            where: [
+                                Where.NietExport,
+                                Where.Personenauto,
+                                Where.EuroM1,
+                                Where.GeenTaxi,
+                                Where.GeenOldtimer,
+                                Where.GeenCamper,
+                                "catalogusprijs >= 50000",
+                                "catalogusprijs < 70000",
+                            ],
+                        },
+                        {
+                            id: 'personenauto-catwaarde-70k-100k',
+                            title: '€ 70.000 tot € 100.000',
+                            where: [
+                                Where.NietExport,
+                                Where.Personenauto,
+                                Where.EuroM1,
+                                Where.GeenTaxi,
+                                Where.GeenOldtimer,
+                                Where.GeenCamper,
+                                "catalogusprijs >= 70000",
+                                "catalogusprijs < 100000",
+                            ],
+                        },
+                        {
+                            id: 'personenauto-catwaarde-100k-plus',
+                            title: '€ 100.000 en hoger',
+                            where: [
+                                Where.NietExport,
+                                Where.Personenauto,
+                                Where.EuroM1,
+                                Where.GeenTaxi,
+                                Where.GeenOldtimer,
+                                Where.GeenCamper,
+                                "catalogusprijs >= 100000",
+                            ],
+                        }
                     ],
                 },
                 {
@@ -123,7 +241,7 @@ const categories = {
                             where: [
                                 Where.NietExport,
                                 Where.Personenauto,
-                                Where.M1,
+                                Where.EuroM1,
                                 Where.GeenTaxi,
                                 Where.GeenOldtimer,
                                 Where.GeenCamper,
@@ -136,7 +254,7 @@ const categories = {
                             where: [
                                 Where.NietExport,
                                 Where.Personenauto,
-                                Where.M1,
+                                Where.EuroM1,
                                 Where.GeenTaxi,
                                 Where.GeenOldtimer,
                                 Where.GeenCamper,
@@ -150,7 +268,7 @@ const categories = {
                             where: [
                                 Where.NietExport,
                                 Where.Personenauto,
-                                Where.M1,
+                                Where.EuroM1,
                                 Where.GeenTaxi,
                                 Where.GeenOldtimer,
                                 Where.GeenCamper,
@@ -164,7 +282,7 @@ const categories = {
                             where: [
                                 Where.NietExport,
                                 Where.Personenauto,
-                                Where.M1,
+                                Where.EuroM1,
                                 Where.GeenTaxi,
                                 Where.GeenOldtimer,
                                 Where.GeenCamper,
@@ -178,7 +296,7 @@ const categories = {
                             where: [
                                 Where.NietExport,
                                 Where.Personenauto,
-                                Where.M1,
+                                Where.EuroM1,
                                 Where.GeenTaxi,
                                 Where.GeenOldtimer,
                                 Where.GeenCamper,
@@ -192,7 +310,7 @@ const categories = {
                             where: [
                                 Where.NietExport,
                                 Where.Personenauto,
-                                Where.M1,
+                                Where.EuroM1,
                                 Where.GeenTaxi,
                                 Where.GeenOldtimer,
                                 Where.GeenCamper,
@@ -208,7 +326,7 @@ const categories = {
                     where: [
                         Where.NietExport,
                         Where.Personenauto,
-                        Where.M1,
+                        Where.EuroM1,
                         Where.GeenTaxi,
                         Where.GeenOldtimer,
                         Where.GeenCamper,
@@ -221,7 +339,7 @@ const categories = {
                     where: [
                         Where.NietExport,
                         Where.Personenauto,
-                        Where.M1,
+                        Where.EuroM1,
                         Where.GeenTaxi,
                         Where.WelOldtimer,
                         Where.GeenCamper,
@@ -233,7 +351,7 @@ const categories = {
                     where: [
                         Where.NietExport,
                         Where.Personenauto,
-                        Where.M1,
+                        Where.EuroM1,
                         Where.GeenTaxi,
                         Where.GeenOldtimer,
                         Where.WelCamper,
@@ -245,7 +363,7 @@ const categories = {
                     where: [
                         Where.NietExport,
                         Where.Personenauto,
-                        Where.M1,
+                        Where.EuroM1,
                         Where.GeenOldtimer,
                         Where.GeenCamper,
                         Where.WelTaxi,
@@ -277,7 +395,7 @@ const categories = {
                         Where.Bedrijfsauto,
                         Where.GeenOldtimer,
                         Where.GeenTaxi,
-                        Where.N1,
+                        Where.EuroN1,
                     ],
                 },
                 {
@@ -288,7 +406,7 @@ const categories = {
                         Where.Bedrijfsauto,
                         Where.GeenOldtimer,
                         Where.GeenTaxi,
-                        Where.N2,
+                        Where.EuroN2,
                     ],
                 },
                 {
@@ -299,7 +417,7 @@ const categories = {
                         Where.Bedrijfsauto,
                         Where.GeenOldtimer,
                         Where.GeenTaxi,
-                        Where.N3,
+                        Where.EuroN3,
                     ],
                 },
             ],
@@ -333,6 +451,26 @@ const categories = {
                     ],
                 },
                 {
+                    id:    'bromsnorfiets-quad',
+                    title: 'Quad',
+                    where: [
+                        Where.NietExport,
+                        Where.EuroL6e,
+                        Where.GeenOldtimer,
+                        "aantal_zitplaatsen = 1",
+                    ],
+                },
+                {
+                    id:    'bromsnorfiets-brommobiel',
+                    title: 'Brommobiel',
+                    where: [
+                        Where.NietExport,
+                        Where.EuroL6e,
+                        Where.GeenOldtimer,
+                        "aantal_zitplaatsen > 1",
+                    ],
+                },
+                {
                     id:    'bromsnorfiets-oldtimer',
                     title: 'Oldtimer',
                     where: [
@@ -348,7 +486,7 @@ const categories = {
                     where: [
                         Where.NietExport,
                         Where.Bromfiets,
-                        Where.L1,
+                        Where.EuroL1e,
                         Where.GeenOldtimer,
                         Where.TweeWielen,
                         Where.WelElektrisch,
@@ -370,7 +508,30 @@ const categories = {
                         Where.NietExport,
                         Where.Motorfiets,
                         Where.TweeWielen,
-                        Where.TweeWielen,
+                    ],
+                },
+                {
+                    id:    'motor-zijspan',
+                    title: 'Motor met zijspan',
+                    where: [
+                        Where.NietExport,
+                        Where.EuroL4e,
+                    ]
+                },
+                {
+                    id:    'motor-trike',
+                    title: 'Trike',
+                    where: [
+                        Where.NietExport,
+                        Where.EuroL5e,
+                    ],
+                },
+                {
+                    id:    'motor-quad',
+                    title: 'Quad',
+                    where: [
+                        Where.NietExport,
+                        Where.EuroL7e,
                     ],
                 },
                 {
