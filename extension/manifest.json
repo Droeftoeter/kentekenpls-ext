@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Kenteken, pls",
     "description": "Gemakkelijk testen met kentekens, kies een categorie en kenteken, pls zal een willekeurig (actief) kenteken invoegen in het veld.",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
     "permissions": [
         "contextMenus",
