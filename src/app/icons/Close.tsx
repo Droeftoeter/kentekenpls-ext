@@ -1,14 +1,17 @@
 import React from 'react';
 
+import Svg, { SvgProps } from './Svg';
+
 /**
  * @copyright Google
  * @see https://github.com/google/material-design-icons
  */
-const Close = props => (
-    <svg
+const Close = (props: SvgProps) => (
+    <Svg
         width="24"
         height="24"
         viewBox="0 0 24 24"
+        preserveAspectRatio="xMinYMin"
         { ...props }
     >
         <path
@@ -18,7 +21,7 @@ const Close = props => (
             d="M0 0h24v24H0z"
             fill="none"
         />
-    </svg>
+    </Svg>
 );
 
 export default Close;

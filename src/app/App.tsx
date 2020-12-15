@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { StyleSheetManager } from 'styled-components';
 
 import { Blanket } from './atoms';
@@ -11,7 +10,7 @@ import { Selector } from './organisms';
  *
  * @param {Element} element
  */
-function isValidTag (element) {
+function isValidTag (element: Element) {
     return ['INPUT', 'TEXTAREA'].includes(element.tagName.toUpperCase());
 }
 
@@ -20,7 +19,7 @@ function isValidTag (element) {
  *
  * @param {Element} element
  */
-function getTargetElementPosition (element) {
+function getTargetElementPosition (element: Element): { left: number, top: number } {
     const { top, height, left } = element.getBoundingClientRect();
     const { scrollX, scrollY } = window;
 
@@ -30,16 +29,23 @@ function getTargetElementPosition (element) {
     };
 }
 
+type AppProps = {
+    styleContainer: HTMLElement
+    targetElement:  Element
+    onVehicle:      any
+    onCancel:       any
+};
+
 /**
  * Application root
  * Passing the styleContainer fixes styling issues while being rendered inside of a shadow-root.
  *
- * @param {Element}  styleContainer
- * @param {Element}  targetElement
- * @param {Function} onVehicle
- * @param {Function} onCancel
+ * @param {HTMLElement} styleContainer
+ * @param {Element}     targetElement
+ * @param {Function}    onVehicle
+ * @param {Function}    onCancel
  */
-const App = ({ styleContainer, targetElement, onVehicle, onCancel }) => (
+const App = ({ styleContainer, targetElement, onVehicle, onCancel }: AppProps) => (
     <StyleSheetManager
         target={ styleContainer }
     >
@@ -60,12 +66,5 @@ const App = ({ styleContainer, targetElement, onVehicle, onCancel }) => (
         ) }
     </StyleSheetManager>
 );
-
-App.propTypes = {
-    onVehicle:      PropTypes.func.isRequired,
-    onCancel:       PropTypes.func.isRequired,
-    targetElement:  PropTypes.instanceOf(Element).isRequired,
-    styleContainer: PropTypes.instanceOf(Element).isRequired,
-};
 
 export default App;

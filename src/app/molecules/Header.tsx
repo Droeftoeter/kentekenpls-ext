@@ -1,12 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import { PersonWithFoldingHands } from '../emoji';
 import { IconButton, Loader } from '../atoms';
 import * as Icons from '../icons';
 
-const Header = ({ className, children, loading, onBack, onCancel }) => (
+type HeaderProps = JSX.IntrinsicElements["header"] & {
+    loading?:  boolean
+    onBack?:   () => void
+    onCancel?: () => void
+};
+
+const Header = ({ className, children, loading, onBack, onCancel }: HeaderProps) => (
     <header
         className={ className }
     >
@@ -27,14 +32,6 @@ const Header = ({ className, children, loading, onBack, onCancel }) => (
         ) }
     </header>
 );
-
-Header.propTypes = {
-    className: PropTypes.string,
-    loading:   PropTypes.bool,
-    children:  PropTypes.node,
-    onBack:    PropTypes.func,
-    onCancel:  PropTypes.func,
-};
 
 export default styled(Header)`
     padding: 0 1rem;

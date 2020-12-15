@@ -2,14 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import retargetEvents from 'react-shadow-dom-retarget-events';
 
+import { RdwOpenDataVehicle } from '../common/types';
+
 import App from './App';
+
+declare global {
+    interface Window { __kentekenpls_remove: null|(() => void) }
+}
+
+window.__kentekenpls_remove = window.__kentekenpls_remove || null;
 
 /**
  * Create a node with a shadow-root, and render the selection interface.
  *
- * @param {Element} targetElement
+ * @param {Element|HTMLInputElement|null} targetElement
  */
-function injectApp(targetElement) {
+function injectApp(targetElement: Element|HTMLInputElement|null) {
+    if (!targetElement) {
+        return null;
+    }
+
     const target = document.createElement('div');
     const shadowRoot = target.attachShadow({ mode: 'open' });
 
@@ -38,8 +50,10 @@ function injectApp(targetElement) {
         window.__kentekenpls_remove = null;
     };
 
-    const handleVehicle = vehicle => {
-        targetElement.value = vehicle.kenteken;
+    const handleVehicle = (vehicle: RdwOpenDataVehicle) => {
+        if ('value' in targetElement) {
+            targetElement.value = vehicle.kenteken;
+        }
 
         targetElement.dispatchEvent(new Event('change', { bubbles: true }));
         targetElement.dispatchEvent(new Event('blur', { bubbles: true }));

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+
+import { RdwOpenDataVehicle } from '../../common/types';
 
 import * as Icons from '../icons';
 import { Option, Blanket } from '../atoms';
@@ -12,7 +13,14 @@ import categories from '../categories';
 import useRandomVehicle from '../hooks/useRandomVehicle';
 import useNavigationStack from '../hooks/useNavigationStack';
 
-const Selector = ({ className, top, left, onVehicle, onCancel }) => {
+type SelectProps = JSX.IntrinsicElements["div"] & {
+    top:       number
+    left:      number
+    onVehicle: (vehicle: RdwOpenDataVehicle) => void
+    onCancel:  () => void
+};
+
+const Selector = ({ className, top, left, onVehicle, onCancel }: SelectProps) => {
     const { stack, activeChild, push, pop } = useNavigationStack(categories);
     const { getVehicle, loading, error } = useRandomVehicle();
 
@@ -23,7 +31,7 @@ const Selector = ({ className, top, left, onVehicle, onCancel }) => {
      */
     useEffect(
         () => {
-            const handleKeyDown = async ({ key }) => {
+            const handleKeyDown = async ({ key }: KeyboardEvent) => {
                 if (key === 'Escape') {
                     onCancel();
                 }
@@ -31,7 +39,7 @@ const Selector = ({ className, top, left, onVehicle, onCancel }) => {
                 if (category && (key === 'Enter' || key === ' ' || key === 'ArrowRight')) {
                     const query = category.items[ activeChild ];
 
-                    if (query.where) {
+                    if ('where' in query) {
                         await getVehicle(query.id, query.where, onVehicle);
                     }
                 }
@@ -56,6 +64,10 @@ const Selector = ({ className, top, left, onVehicle, onCancel }) => {
                 </Error>
             </Blanket>
         );
+    }
+
+    if (!category) {
+        return null;
     }
 
     return (
@@ -88,7 +100,7 @@ const Selector = ({ className, top, left, onVehicle, onCancel }) => {
                                         key={ category.id }
                                     >
                                         { category.items.map(
-                                            (item, index) => item.items ? (
+                                            (item, index) => 'items' in item ? (
                                                 <Option
                                                     key={ item.id }
                                                     icon={ <Icons.ArrowForward /> }
@@ -117,11 +129,6 @@ const Selector = ({ className, top, left, onVehicle, onCancel }) => {
             </div>
         </div>
     );
-};
-
-Selector.propTypes = {
-    onVehicle: PropTypes.func.isRequired,
-    onCancel:  PropTypes.func.isRequired,
 };
 
 export default styled(Selector)`

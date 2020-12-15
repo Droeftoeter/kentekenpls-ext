@@ -2,16 +2,18 @@ import styled, { keyframes } from 'styled-components';
 
 import { PersonWithFoldingHands } from '../emoji';
 
-const t = keyframes`
+const wiggleWiggleAnimation = keyframes`
     from {
         transform: rotate(-8deg);
     }
-    
+
     to {
         transform: rotate(8deg);
     }
 `;
 
-export default styled(PersonWithFoldingHands)`
-    animation: ${ t } 300ms linear infinite alternate;
+const Loader = styled(PersonWithFoldingHands)`
+    animation: ${ wiggleWiggleAnimation } 300ms linear infinite alternate;
 `;
+
+export default Loader;

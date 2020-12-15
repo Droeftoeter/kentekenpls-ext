@@ -1,12 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ActionBar from '@vcnkit/core/ActionBar';
 import { Primary } from '@vcnkit/core/Button';
 
 import { SadCat } from '../emoji';
 
-const Error = ({ className, children, onClose }) => (
+type ErrorProps = JSX.IntrinsicElements["div"] & {
+    onClose: () => void
+};
+
+const Error = ({ className, children, onClose }: ErrorProps) => (
     <div
         className={ className }
     >
@@ -22,12 +25,6 @@ const Error = ({ className, children, onClose }) => (
         </ActionBar>
     </div>
 );
-
-Error.propTypes = {
-    className: PropTypes.string,
-    children:  PropTypes.node.isRequired,
-    onClose:   PropTypes.func.isRequired,
-};
 
 export default styled(Error)`
     background:    #FFFFFF;

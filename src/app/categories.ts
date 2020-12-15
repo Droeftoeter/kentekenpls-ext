@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon';
 
+import { Category } from '../common/types';
+
 const HighRiskOfTheft = [
     "handelsbenaming = 'MITSUBISHI OUTLANDER' AND cilinderinhoud = 2360 AND datum_eerste_toelating >= 20140101", // Mitsubishi Outlander PHEV
     "handelsbenaming = 'GOLF' AND cilinderinhoud = 1968 AND datum_eerste_toelating >= 20120101", // VW Golf R
@@ -97,7 +99,7 @@ const Where = {
     EuroO4: "europese_voertuigcategorie = 'O4'",
 };
 
-const categories = {
+const categories: Category = {
     id: 'root',
     items: [
         // Personenauto

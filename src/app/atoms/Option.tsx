@@ -1,8 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const Option = ({ className, children, icon, active, ...rest }) => (
+type OptionProps = JSX.IntrinsicElements["a"] & {
+    icon:   React.ReactNode
+    active: boolean
+};
+
+const Option = ({ className, children, icon, active, ...rest }: OptionProps) => (
     <a
         className={ className }
         tabIndex={ 1 }
@@ -13,11 +17,6 @@ const Option = ({ className, children, icon, active, ...rest }) => (
     </a>
 );
 
-Option.propTypes = {
-    className: PropTypes.string,
-    children:  PropTypes.node.isRequired,
-};
-
 export default styled(Option)`
     text-decoration: none;
     display:         flex;
@@ -26,7 +25,7 @@ export default styled(Option)`
     padding:         0 1rem;
     height:          3rem;
     cursor:          pointer;
-    
+
     width:      15rem;
     max-width:  15rem;
     box-sizing: border-box;
@@ -50,7 +49,7 @@ export default styled(Option)`
 
     ${ props => props.active ? `
         background: hsla(0, 0%, 0%, .08);
-        outline:    none;        
+        outline:    none;
     ` : '' }
 
     span {
