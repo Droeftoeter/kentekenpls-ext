@@ -1,9 +1,7 @@
-import fetchVehicle from './db';
+import { RdwOpenDataVehicle } from '../common/types';
+import findMatchingVehicle from './findMatchingVehicle';
 
-/**
- * Creates context-menu items
- */
-function createMenu() {
+function createMenu(): void {
     chrome.commands.getAll(
         commands => {
             const shortCut = commands.find(c => c.name === 'kenteken-pls');
@@ -15,47 +13,33 @@ function createMenu() {
             });
         }
     );
-};
+}
 
-/**
- * Injects script into the active tab
- */
-function inject() {
+function inject(): void {
     chrome.tabs.executeScript({
         file: 'dist/app/index.js',
     });
 }
 
-/**
- * Wait for a vehicle request.
- */
+type ChromeMessage =
+    | { action: 'fetch-vehicle', payload: { id: string, where: string } }
+    | any;
+
 chrome.runtime.onMessage.addListener(
-    ({ action, payload = {} }, _, callback) => {
-        if (action === 'fetch-vehicle') {
-            const { id, where } = payload;
+    (message: ChromeMessage, _, callback: (result: { resolved?: RdwOpenDataVehicle, error?: string }) => void) => {
 
-            const fetch = async () => {
-                try {
-                    await fetchVehicle(
-                        id,
-                        where,
-                        vehicle => callback({ resolved: vehicle })
-                    );
-                } catch (e) {
-                    callback({ error: e.toString() });
-                }
-            };
+        if (message.action === 'fetch-vehicle') {
+            const { id, where } = message.payload;
 
-            fetch();
+            findMatchingVehicle(id, where)
+                .then(vehicle => callback({ resolved: vehicle }))
+                .catch(error => callback({ error: error.toString() }));
 
             return true;
         }
     },
 );
 
-/**
- * Inject the script when the shortcut is pressed.
- */
 chrome.commands.onCommand.addListener(
     name => {
         if (name === 'kenteken-pls') {
@@ -64,9 +48,6 @@ chrome.commands.onCommand.addListener(
     }
 );
 
-/**
- * Inject the script when the context-menu is clicked.
- */
 chrome.contextMenus.onClicked.addListener(
     ({ menuItemId }) => {
         if (menuItemId === 'kenteken-pls') {
@@ -75,9 +56,6 @@ chrome.contextMenus.onClicked.addListener(
     }
 );
 
-/**
- * Add the context-menus on installation
- */
 chrome.runtime.onInstalled.addListener(
     () => {
         createMenu();
