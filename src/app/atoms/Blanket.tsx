@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.div`
+const Blanket = styled.div`
     position: absolute;
     top:      0;
     bottom:   0;
@@ -15,3 +15,5 @@ export default styled.div`
     display:        flex;
     flex-direction: row;
 `;
+
+export default Blanket;

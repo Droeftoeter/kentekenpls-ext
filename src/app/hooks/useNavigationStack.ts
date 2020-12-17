@@ -1,5 +1,20 @@
 import { useReducer, useEffect } from 'react';
 
+import { Category } from '../../common/types';
+
+type State = {
+    stack:          Category[]
+    selectionStack: number[]
+    activeChild:    number
+};
+
+type Action =
+    | { type: 'select-next' }
+    | { type: 'select-previous' }
+    | { type: 'enter-selected' }
+    | { type: 'push', payload: Category }
+    | { type: 'pop' };
+
 const shortKeys = {
     nextItem:      [ 'ArrowDown', 'k' ],
     previousItem:  [ 'ArrowUp', 'j' ],
@@ -7,19 +22,12 @@ const shortKeys = {
     leaveCategory: [ 'ArrowLeft', 'Backspace' ],
 };
 
-/**
- * Reducer
- *
- * @param {Object} state
- * @param {String} type
- * @param {*}      payload
- */
-function reducer(state, { type, payload }) {
+function reducer(state: State, action: Action): State {
     const category = state.stack.slice(-1).shift();
 
-    switch (type) {
+    switch (action.type) {
         case 'select-next':
-            if (state.activeChild < category.items.length) {
+            if (category && state.activeChild < category.items.length) {
                 return {
                     ...state,
                     activeChild: state.activeChild + 1,
@@ -39,29 +47,35 @@ function reducer(state, { type, payload }) {
             return state;
 
         case 'enter-selected':
-            if (!category.items[ state.activeChild ] || !category.items[ state.activeChild ].items) {
+            if (!category || !category.items[ state.activeChild ]) {
                 return state;
             }
 
-            return {
-                ...state,
-                stack: [
-                    ...state.stack,
-                    category.items[ state.activeChild ],
-                ],
-                selectionStack: [
-                    ...state.selectionStack,
-                    state.activeChild,
-                ],
-                activeChild: 0,
-            };
+            const activeChild = category.items[ state.activeChild ];
+
+            if ('items' in activeChild) {
+                return {
+                    ...state,
+                    stack: [
+                        ...state.stack,
+                        activeChild,
+                    ],
+                    selectionStack: [
+                        ...state.selectionStack,
+                        state.activeChild,
+                    ],
+                    activeChild: 0,
+                };
+            }
+
+            return state;
 
         case 'push':
             return {
                 ...state,
                 stack: [
                     ...state.stack,
-                    payload,
+                    action.payload,
                 ],
                 selectionStack: [
                     ...state.selectionStack,
@@ -85,19 +99,15 @@ function reducer(state, { type, payload }) {
                 ...state,
                 stack:          nextStack,
                 selectionStack: nextSelectionStack,
-                activeChild:    lastActiveChild,
+                activeChild:    lastActiveChild ?? 0,
             };
+
         default:
             return state;
     }
 }
 
-/**
- * @param root
- *
- * @returns {{pop: (function(): void), stack: ([*]|*[]), activeChild: number, push: (function(*=): void)}}
- */
-export default function useNavigationStack(root) {
+export default function useNavigationStack(root: Category) {
     const [ state, dispatch ] = useReducer(
         reducer,
         {
@@ -107,7 +117,7 @@ export default function useNavigationStack(root) {
         },
     );
 
-    const push = category => dispatch({ type: 'push', payload: category });
+    const push = (category: Category) => dispatch({ type: 'push', payload: category });
     const pop = () => dispatch({ type: 'pop' });
 
     /**
@@ -115,7 +125,7 @@ export default function useNavigationStack(root) {
      */
     useEffect(
         () => {
-            const handleShortcut = event => {
+            const handleShortcut = (event: KeyboardEvent) => {
                 if (shortKeys.nextItem.includes(event.key)) {
                     dispatch({ type: 'select-next' });
                     event.preventDefault();

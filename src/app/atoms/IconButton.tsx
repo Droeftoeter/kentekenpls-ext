@@ -1,8 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const IconButton = ({ className, onClick, children, ...rest }) => (
+type IconButtonProps = JSX.IntrinsicElements["a"];
+
+const IconButton = ({ className, onClick, children, ...rest }: IconButtonProps) => (
     <a
         className={ className }
         role="button"
@@ -13,12 +14,6 @@ const IconButton = ({ className, onClick, children, ...rest }) => (
         { children }
     </a>
 );
-
-IconButton.propTypes = {
-    className: PropTypes.string,
-    onClick:   PropTypes.func,
-    children:  PropTypes.node.isRequired,
-};
 
 export default styled(IconButton)`
     height: 2rem;
@@ -44,6 +39,6 @@ export default styled(IconButton)`
 
     &:hover, &:focus {
         background: hsla(0, 0%, 0%, .08);
-        outline:    none;   
+        outline:    none;
     }
 `;

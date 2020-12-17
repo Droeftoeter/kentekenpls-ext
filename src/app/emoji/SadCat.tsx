@@ -1,17 +1,20 @@
 import React from 'react';
 
-const SadCat = props => (
-    <svg
+import Svg, { SvgProps } from '../icons/Svg';
+
+const SadCat = (props: SvgProps) => (
+    <Svg
         width="36"
         height="36"
         viewBox="0 0 36 36"
+        preserveAspectRatio="xMinYMin"
         { ...props }
     >
         <path
             fill="#FFCC4D"
             d="M35.734 19.929C35.375 16.66 35 15 34 13c0 0 3-9 1-12.7-.674-1.246-7.404 1.688-10 3.7 0 0-4-.998-7-.998S11 4 11 4C8.404 1.988 1.674-.946 1 .3-1 4 2 13 2 13 1 15 .625 16.66.266 19.929-.129 23.513.657 26.37 1 27c.39.716 2.367 3.025 5 5 4 3 10 4 12 4s8-1 12-4c2.633-1.975 4.61-4.284 5-5 .343-.63 1.129-3.487.734-7.071z"
         />
-        <path 
+        <path
             fill="#E75A70"
             d="M18 19.5c3 0 3 .5 3 1.5s-1.5 3-3 3-3-2-3-3-.001-1.5 3-1.5z"
         />
@@ -50,7 +53,7 @@ const SadCat = props => (
             fill="#5DADEC"
             d="M15 31c0 2.762-2.239 5-5 5s-5-2.238-5-5 4-13 5-13 5 10.238 5 13z"
         />
-    </svg>
+    </Svg>
 );
 
 export default SadCat;

@@ -1,10 +1,13 @@
 import React from 'react';
 
-const PersonWithFoldingHands = props => (
-    <svg
+import Svg, { SvgProps } from '../icons/Svg';
+
+const PersonWithFoldingHands = (props: SvgProps) => (
+    <Svg
         width="128"
         height="128"
         viewBox="0 0 128 128"
+        preserveAspectRatio="xMinYMin"
         { ...props }
     >
         <g>
@@ -44,7 +47,7 @@ const PersonWithFoldingHands = props => (
                     C39.74,66.19,35.32,64.69,35.25,64.68z"/>
             </g>
         </g>
-    </svg>
+    </Svg>
 );
 
 export default PersonWithFoldingHands;

@@ -1,8 +1,8 @@
 {
   "name": "kentekenpls-ext",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "Gemakkelijk testen met kentekens, kies een categorie en kenteken, pls zal een willekeurig (actief) kenteken invoegen in het veld.",
-  "main": "src/app/index.js",
+  "main": "src/app/index.tsx",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Droeftoeter/kentekenpls-ext.git"
@@ -15,27 +15,34 @@
   "homepage": "https://github.com/Droeftoeter/kentekenpls-ext#readme",
   "scripts": {
     "clean": "rimraf extension/dist/",
-    "build": "npm run clean && parcel build src/app/index.js src/background/index.js -d extension/dist/ --no-source-maps",
-    "watch": "npm run clean && parcel watch src/app/index.js src/background/index.js -d extension/dist/ --no-hmr"
+    "build": "npm run clean && parcel build src/app/index.tsx src/background/index.ts -d extension/dist/ --no-source-maps",
+    "watch": "npm run clean && parcel watch src/app/index.tsx src/background/index.ts -d extension/dist/ --no-hmr"
   },
   "dependencies": {
     "@vcnkit/core": "^1.3.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
     "dexie": "^3.0.3",
     "framer-motion": "^2.9.5",
-    "ky": "^0.25.0",
+    "ky": "^0.25.1",
     "luxon": "^1.25.0",
-    "parcel-bundler": "^1.12.4",
-    "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-shadow-dom-retarget-events": "^1.0.11",
-    "rimraf": "^3.0.2",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3"
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.10",
+    "@babel/preset-react": "^7.12.10",
+    "@types/chrome": "0.0.127",
+    "@types/luxon": "^1.25.0",
+    "@types/node": "^14.14.14",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-shadow-dom-retarget-events": "^1.0.0",
+    "@types/styled-components": "^5.1.5",
+    "parcel-bundler": "^1.12.4",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.1.3"
   },
   "browserslist": [
     "last 2 Chrome versions",

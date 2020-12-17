@@ -1,9 +1,4 @@
-/**
- * Turns sendMessage into a promise
- * 
- * @param {*} message 
- */
-export default function sendMessagePromise(message) {
+export default function sendMessagePromise<T>(message: any): Promise<T> {
     return new Promise(
         (resolve, reject) => {
             chrome.runtime.sendMessage(
