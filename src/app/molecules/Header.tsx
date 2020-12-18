@@ -36,9 +36,17 @@ const Header = ({ className, children, loading, onBack, onCancel }: HeaderProps)
 export default styled(Header)`
     padding: 0 1rem;
 
+    height:        3rem;
+    border-radius: .25rem .25rem 0 0;
+    background:    ${ props => props.theme.surfaceColor };
+    position:      relative;
+    z-index:       1;
+
     display:        flex;
     flex-direction: row;
     align-items:    center;
+
+    color: ${ props => props.theme.subtleTextColor };
 
     & > svg {
         width:  2rem;
@@ -50,7 +58,7 @@ export default styled(Header)`
     }
 
     &:not(:only-child) {
-        border-bottom: .0625rem solid hsla(0, 0%, 0%, .06);
+        border-bottom: .0625rem solid ${ props => props.theme.borderColor };
     }
 
     ${ IconButton }:last-child {

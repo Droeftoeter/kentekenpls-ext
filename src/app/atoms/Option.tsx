@@ -32,30 +32,22 @@ export default styled(Option)`
 
     font-size: 1rem;
 
-    color: hsla(0, 0%, 0%, .67);
-    fill:  hsla(0, 0%, 0%, .57);
+    color: ${ props => props.theme.subtleTextColor };
 
     svg {
         height: .875rem;
         width:  auto;
         margin: 0 0 0 auto;
-        fill:   hsla(0, 0%, 0%, .47);
+        fill:   ${ props => props.theme.iconColor };
     }
 
     &:hover, &:focus {
-        background: hsla(0, 0%, 0%, .08);
+        background: ${ props => props.theme.focusColor };
         outline:    none;
     }
 
     ${ props => props.active ? `
-        background: hsla(0, 0%, 0%, .08);
+        background: ${ props.theme.focusColor };
         outline:    none;
     ` : '' }
-
-    span {
-        font-size:   .75rem;
-        color:       hsla(0, 0%, 0%, .37);
-        font-weight: 500;
-        margin:      0 0 0 .5rem;
-    }
 `;

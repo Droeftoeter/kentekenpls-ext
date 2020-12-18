@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleSheetManager } from 'styled-components';
 
-import { Blanket } from './atoms';
+import Theme from './Theme';
+
 import { Error } from './molecules';
 import { Selector } from './organisms';
+import { Window } from './templates';
 
 /**
  * Check if the element is INPUT or TEXTAREA
@@ -49,21 +51,24 @@ const App = ({ styleContainer, targetElement, onVehicle, onCancel }: AppProps) =
     <StyleSheetManager
         target={ styleContainer }
     >
-        { isValidTag(targetElement) ? (
-            <Selector
-                onVehicle={ onVehicle }
-                onCancel={ onCancel }
+        <Theme>
+            <Window
                 { ...getTargetElementPosition(targetElement) }
-            />
-        ) : (
-            <Blanket>
-                <Error
-                    onClose={ onCancel }
-                >
-                    Kenteken, pls werkt helaas nog niet voor het huidige element.
-                </Error>
-            </Blanket>
-        ) }
+            >
+                { isValidTag(targetElement) ? (
+                    <Selector
+                        onVehicle={ onVehicle }
+                        onCancel={ onCancel }
+                    />
+                ) : (
+                    <Error
+                        onClose={ onCancel }
+                    >
+                        Kenteken, pls werkt helaas nog niet voor het huidige element.
+                    </Error>
+                ) }
+            </Window>
+        </Theme>
     </StyleSheetManager>
 );
 
