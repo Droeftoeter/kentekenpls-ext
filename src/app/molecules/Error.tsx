@@ -26,12 +26,6 @@ const Error = ({ className, children, onClose }: ErrorProps) => (
 );
 
 export default styled(Error)`
-    background:    ${ props => props.theme.surfaceColor };
-    border-radius: .25rem;
-    margin:        auto;
-    box-shadow:    0 0 0.125rem hsla(0, 0%, 0%, 0.12),
-                   0 0.125rem 0.25rem hsla(0, 0%, 0%, 0.24);
-
     display:        flex;
     flex-direction: column;
 
