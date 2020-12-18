@@ -1,51 +1,49 @@
 import React from 'react';
 import styled from 'styled-components';
-import ActionBar from '@vcnkit/core/ActionBar';
-import { Primary } from '@vcnkit/core/Button';
 
 import { SadCat } from '../emoji';
+import Header from './Header';
 
 type ErrorProps = JSX.IntrinsicElements["div"] & {
     onClose: () => void
 };
 
 const Error = ({ className, children, onClose }: ErrorProps) => (
-    <div
-        className={ className }
-    >
-        <SadCat />
-        <h1>Er is iets niet helemaal goedgegaan...</h1>
-        <p>{ children }</p>
-        <ActionBar>
-            <Primary
-                onClick={ onClose }
-            >
-                Sluiten
-            </Primary>
-        </ActionBar>
-    </div>
+    <>
+        <Header
+            onCancel={ onClose }
+        />
+        <div
+            className={ className }
+        >
+            <SadCat />
+            <h1>Oeps! Foutje!</h1>
+            <p>
+                { children }
+            </p>
+        </div>
+    </>
 );
 
 export default styled(Error)`
-    background:    #FFFFFF;
-    border-radius: .25rem;
-    margin:        auto;
-    box-shadow:    0 0 0.125rem hsla(0, 0%, 0%, 0.12), 0 0.125rem 0.25rem hsla(0, 0%, 0%, 0.24);
-
     display:        flex;
     flex-direction: column;
 
     h1 {
         font-size: 1.25rem;
         padding:   0 2rem;
+        text-align: center;
+        color:     ${ props => props.theme.textColor };
     }
 
     p {
         padding:          1rem 2rem;
-        background-color: hsla(0, 0%, 0%, .03);
-        color:            hsla(0, 0%, 0%, .67);
+        background-color: ${ props => props.theme.focusColor };
+        color:            ${ props => props.theme.subtleTextColor };
         white-space:      pre-wrap;
         margin:           0;
+        line-height:      1.25em;
+        font-style:       italic;
     }
 
     & > svg:first-child {

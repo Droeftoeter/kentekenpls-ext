@@ -23,7 +23,7 @@ export default styled(IconButton)`
     border-radius: 1rem;
 
     svg {
-        fill:   hsla(0, 0%, 0%, .47);
+        fill:   ${ props => props.theme.iconColor };
         height: auto;
         width:  1.25rem;
         margin: .375rem;
@@ -38,7 +38,7 @@ export default styled(IconButton)`
     }
 
     &:hover, &:focus {
-        background: hsla(0, 0%, 0%, .08);
+        background: ${ props => props.theme.focusColor };
         outline:    none;
     }
 `;
