@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { AnimatedHeight } from '../atoms';
+
 type WindowProps = JSX.IntrinsicElements["div"] & {
     top:  number
     left: number
@@ -13,7 +15,9 @@ const Window = ({ className, children, top, left, ...rest }: WindowProps) => (
         { ...rest }
     >
         <div>
-            { children }
+            <AnimatedHeight>
+                { children }
+            </AnimatedHeight>
         </div>
     </div>
 );

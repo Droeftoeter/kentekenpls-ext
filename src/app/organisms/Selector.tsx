@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
 
 import { RdwOpenDataVehicle } from '../../common/types';
 
@@ -66,13 +65,7 @@ const Selector = ({ onVehicle, onCancel }: SelectProps) => {
     }
 
     return (
-        <motion.div
-            initial={ { height: 0 } }
-            animate={ {
-                height: loading ? '3rem' : `${ category.items.length * 3 + 3 }rem`
-            } }
-            transition={ { ease: "easeInOut", duration: 0.2 } }
-        >
+        <>
             <Header
                 onBack={ stack.length > 1 ? pop : undefined }
                 onCancel={ !loading ? onCancel : undefined }
@@ -115,7 +108,7 @@ const Selector = ({ onVehicle, onCancel }: SelectProps) => {
                     ) }
                 </Slider>
             ) }
-        </motion.div>
+        </>
     );
 };
 

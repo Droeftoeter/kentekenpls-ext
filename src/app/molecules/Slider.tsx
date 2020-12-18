@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
@@ -24,7 +24,20 @@ const Slider = ({ className, index = 0, children }: SliderProps) => (
             animate={ { x: index === 0 ? 0 : `-${ index * 15 }rem` } }
             transition={ { ease: "easeInOut", duration: 0.2 } }
         >
-            { children }
+            { Children.map(
+                children,
+                (child, i) => (
+                    <div
+                        style={ i === index ? {} : {
+                            maxHeight: 0,
+                            overflow:  'hidden',
+                        } }
+                        key={ `slide-${ i }` }
+                    >
+                        { child }
+                    </div>
+                )
+            ) }
         </StyledMotion>
     </div>
 );

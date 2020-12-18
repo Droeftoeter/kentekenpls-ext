@@ -1,0 +1,51 @@
+import React, { useRef, useState, useEffect } from 'react';
+import ResizeObserver from 'resize-observer-polyfill';
+import { motion } from 'framer-motion';
+
+type Bounds = Pick<DOMRectReadOnly, "height">;
+
+type AnimatedHeightProps = JSX.IntrinsicElements["div"];
+
+const AnimatedHeight = ({ children, ...rest }: AnimatedHeightProps) => {
+    const [ bounds, setBounds ] = useState<Bounds>({ height: 0 });
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(
+        () => {
+            const observer = new ResizeObserver(
+                ([ entry ]) => {
+                    setBounds(entry.contentRect);
+                },
+            );
+
+            if (ref && ref.current) {
+                observer.observe(ref.current);
+            }
+
+            return () => {
+                observer.disconnect();
+            }
+        },
+        [ ref ],
+    );
+
+    return (
+        <motion.div
+            style={ { overflow: 'hidden' }}
+            initial={ { height: 0 } }
+            animate={ {
+                height: bounds.height,
+            } }
+            transition={ { ease: "easeInOut", duration: 0.2 } }
+        >
+            <div
+                ref={ ref }
+                { ...rest }
+            >
+                { children }
+            </div>
+        </motion.div>
+    );
+};
+
+export default AnimatedHeight;
