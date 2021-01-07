@@ -20,11 +20,11 @@ interface Theme {
 
 const darkTheme: Theme = {
     surfaceColor:    '#121212',
-    focusColor:      'hsla(0, 100%, 100%, .1)',
-    borderColor:     'hsla(0, 100%, 100%, .15)',
+    focusColor:      '#242424',
+    borderColor:     '#363636',
 
     textColor:       'hsla(0, 100%, 100%, 1)',
-    subtleTextColor: 'hsla(0, 100%, 100%, .87)',
+    subtleTextColor: 'hsla(0, 100%, 100%, .67)',
 
     iconColor:       'hsla(0, 100%, 100%, .67)',
 };

@@ -6,12 +6,13 @@ import { IconButton, Loader } from '../atoms';
 import * as Icons from '../icons';
 
 type HeaderProps = JSX.IntrinsicElements["header"] & {
-    loading?:  boolean
-    onBack?:   () => void
-    onCancel?: () => void
+    loading?:   boolean
+    onBack?:    () => void
+    onCancel?:  () => void
+    onRefresh?: () => void
 };
 
-const Header = ({ className, children, loading, onBack, onCancel }: HeaderProps) => (
+const Header = ({ className, children, loading, onBack, onCancel, onRefresh }: HeaderProps) => (
     <header
         className={ className }
     >
@@ -23,6 +24,13 @@ const Header = ({ className, children, loading, onBack, onCancel }: HeaderProps)
             </IconButton>
         ) : <PersonWithFoldingHands /> }
         <span>{ children }</span>
+        { onRefresh && (
+            <IconButton
+                onClick={ onRefresh }
+            >
+                <Icons.Refresh />
+            </IconButton>
+        ) }
         { onCancel && (
             <IconButton
                 onClick={ onCancel }
@@ -54,14 +62,10 @@ export default styled(Header)`
     }
 
     & > span {
-        margin: .125rem 1rem 0;
+        margin: .125rem auto 0;
     }
 
     &:not(:only-child) {
         border-bottom: .0625rem solid ${ props => props.theme.borderColor };
-    }
-
-    ${ IconButton }:last-child {
-        margin-left: auto;
     }
 `;

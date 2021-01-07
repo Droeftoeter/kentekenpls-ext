@@ -57,8 +57,6 @@ function injectApp(targetElement: Element|HTMLInputElement|null) {
 
         targetElement.dispatchEvent(new Event('change', { bubbles: true }));
         targetElement.dispatchEvent(new Event('blur', { bubbles: true }));
-
-        removeApp();
     }
 
     ReactDOM.render(

@@ -16,6 +16,24 @@ function createMenu(): void {
 }
 
 function inject(): void {
+    const fontUrl = chrome.extension.getURL('fonts/kenteken.woff2');
+
+    chrome
+        .tabs
+        .insertCSS(
+            {
+                code: `
+                @font-face {
+                    font-family:  'Kenteken';
+                    font-style:   normal;
+                    font-display: auto;
+                    font-weight:  400;
+                    src:          url('${ fontUrl }')
+                }
+            `
+            }
+        );
+
     chrome.tabs.executeScript({
         file: 'dist/app/index.js',
     });

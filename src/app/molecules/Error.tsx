@@ -28,6 +28,7 @@ const Error = ({ className, children, onClose }: ErrorProps) => (
 export default styled(Error)`
     display:        flex;
     flex-direction: column;
+    max-width:      15rem;
 
     h1 {
         font-size: 1.25rem;

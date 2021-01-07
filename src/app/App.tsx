@@ -4,7 +4,7 @@ import { StyleSheetManager } from 'styled-components';
 import Theme from './Theme';
 
 import { Error } from './molecules';
-import { Selector } from './organisms';
+import { CategorizedRandomVehicleSelector } from './organisms';
 import { Window } from './templates';
 
 /**
@@ -56,7 +56,7 @@ const App = ({ styleContainer, targetElement, onVehicle, onCancel }: AppProps) =
                 { ...getTargetElementPosition(targetElement) }
             >
                 { isValidTag(targetElement) ? (
-                    <Selector
+                    <CategorizedRandomVehicleSelector
                         onVehicle={ onVehicle }
                         onCancel={ onCancel }
                     />
