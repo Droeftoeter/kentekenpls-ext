@@ -88,6 +88,24 @@ const Where = {
     // Maximale technische massa van meer dan 12.000 kg
     EuroN3: "europese_voertuigcategorie = 'N3'",
 
+    /* Trekkers */
+    // Trekkers op wielen
+    EuroT: "europese_voertuigcategorie = 'T'",
+    // Trekkers op rupsbanden
+    EuroC: "europese_voertuigcategorie = 'C'",
+
+    /* Aanhangwagens en getrokken machines */
+    // Aanhangwagen ten behoeve van land- of bosbouw
+    EuroR: "europese_voertuigcategorie = 'R'",
+    // Verwisselbare getrokken machines
+    EuroS: "europese_voertuigcategorie = 'S'",
+
+    // Mobiele machines
+    EuroU: "europese_voertuigcategorie = 'U'",
+
+    // MMBS
+    EuroZ: "europese_voertuigcategorie = 'Z'",
+
     /* Aanhangers en opleggers */
     // Aanhangwagen/Oplegger met een maximale technische massa van 750 kg
     EuroO1: "europese_voertuigcategorie = 'O1'",
@@ -553,6 +571,58 @@ const categories: Category = {
                         Where.NietExport,
                         Where.Motorfiets,
                         Where.WelOldtimer,
+                    ],
+                },
+            ],
+        },
+
+        {
+            id: 'special',
+            title: 'Bijzondere voertuigen',
+            items: [
+                {
+                    id:    'special-land-bosbouw-trekker',
+                    title: '(Land)bouw trekker',
+                    where: [
+                        Where.NietExport,
+                        `(${ Where.EuroT } OR ${ Where.EuroC })`,
+                        'starts_with(UPPER(kenteken), \'T\')',
+                    ],
+                },
+                {
+                    id:    'special-land-bosbouw-aanhangwagen',
+                    title: '(Land)bouw aanhangwagen',
+                    where: [
+                        Where.NietExport,
+                        Where.EuroR,
+                        'starts_with(UPPER(kenteken), \'L\')',
+                    ],
+                },
+                {
+                    id:    'special-land-bosbouw-uitrusting',
+                    title: 'Getrokken machine',
+                    where: [
+                        Where.NietExport,
+                        Where.EuroS,
+                        'starts_with(UPPER(kenteken), \'L\')',
+                    ],
+                },
+                {
+                    id:    'special-mobiele-machine',
+                    title: 'Mobiele machine',
+                    where: [
+                        Where.NietExport,
+                        Where.EuroU,
+                        'starts_with(UPPER(kenteken), \'T\')',
+                    ],
+                },
+                {
+                    id:    'special-mmbs',
+                    title: 'MMBS',
+                    where: [
+                        Where.NietExport,
+                        Where.EuroZ,
+                        'starts_with(UPPER(kenteken), \'T\')',
                     ],
                 },
             ],
