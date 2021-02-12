@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+    node:
+        image: node:12
+        user: 1000:1000
+        environment:
+            TZ: "Europe/Amsterdam"
+        volumes:
+            - .:/app
+        working_dir: "/app"
+        command: bash -c "npm install && npm run watch"
