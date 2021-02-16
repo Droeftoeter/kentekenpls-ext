@@ -56,8 +56,4 @@ chrome.contextMenus.onClicked.addListener(
     }
 );
 
-chrome.runtime.onInstalled.addListener(
-    () => {
-        createMenu();
-    }
-);
+createMenu();
