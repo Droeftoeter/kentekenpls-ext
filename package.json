@@ -19,7 +19,7 @@
     "watch": "npm run clean && parcel watch src/app/index.tsx src/background/index.ts -d extension/dist/ --no-hmr"
   },
   "dependencies": {
-    "dexie": "^3.0.3",
+    "dexie": "^3.2.2",
     "framer-motion": "^3.2.1",
     "ky": "^0.26.0",
     "luxon": "^1.25.0",
