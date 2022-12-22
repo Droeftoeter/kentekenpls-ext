@@ -1,8 +1,7 @@
 import { useState } from 'react';
+import browser from "webextension-polyfill";
 
 import { RdwOpenDataVehicle } from '../../common/types';
-
-import sendMessagePromise from '../util/sendMessagePromise';
 
 export default function useRandomVehicle() {
     const [ loading, setLoading ] = useState(false);
@@ -12,12 +11,12 @@ export default function useRandomVehicle() {
         setLoading(true);
 
         try {
-            const vehicle = await sendMessagePromise<RdwOpenDataVehicle>({ action: 'fetch-vehicle', payload: { id, where } });
+            const vehicle = await browser.runtime.sendMessage(undefined, { action: 'fetch-vehicle', payload: { id, where } }) as RdwOpenDataVehicle;
             callback(vehicle);
-        } catch (e) {
+        } catch (e: unknown) {
             console.error(e);
 
-            setError(e.toString);
+            setError(String(e));
         } finally {
             setLoading(false);
         }

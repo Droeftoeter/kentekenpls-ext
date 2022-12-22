@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import retargetEvents from 'react-shadow-dom-retarget-events';
+import browser from "webextension-polyfill";
 
-import { RdwOpenDataVehicle } from '../common/types';
+import { RdwOpenDataVehicle, BrowserMessage } from '../common/types';
 
 import App from './App';
 
 declare global {
-    interface Window { __kentekenpls_remove: null|(() => void) }
+    interface Window { __kentekenpls_remove: null | (() => void) }
 }
 
 window.__kentekenpls_remove = window.__kentekenpls_remove || null;
@@ -17,7 +18,7 @@ window.__kentekenpls_remove = window.__kentekenpls_remove || null;
  *
  * @param {Element|HTMLInputElement|null} targetElement
  */
-function injectApp(targetElement: Element|HTMLInputElement|null) {
+function injectApp(targetElement: Element | HTMLInputElement | null) {
     if (!targetElement) {
         return null;
     }
@@ -63,10 +64,10 @@ function injectApp(targetElement: Element|HTMLInputElement|null) {
 
     ReactDOM.render(
         <App
-            styleContainer={ styleContainer }
-            targetElement={ targetElement }
-            onVehicle={ handleVehicle }
-            onCancel={ removeApp }
+            styleContainer={styleContainer}
+            targetElement={targetElement}
+            onVehicle={handleVehicle}
+            onCancel={removeApp}
         />,
         appContainer
     );
@@ -76,11 +77,16 @@ function injectApp(targetElement: Element|HTMLInputElement|null) {
     return removeApp;
 }
 
-/**
- * Remove previous instances of kentekenpls.
- */
-if (typeof window.__kentekenpls_remove === 'function') {
-    window.__kentekenpls_remove();
-}
+browser.runtime.onMessage.addListener(
+    (message: BrowserMessage) => {
+        if (message.action === 'open') {
+            if (typeof window.__kentekenpls_remove === 'function') {
+                window.__kentekenpls_remove();
+            }
 
-window.__kentekenpls_remove = injectApp(document.activeElement);
+            window.__kentekenpls_remove = injectApp(document.activeElement);
+        }
+    },
+);
+
+
