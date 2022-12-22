@@ -3,9 +3,9 @@ import Dexie from 'dexie';
 import { RdwOpenDataVehicle } from '../common/types';
 
 interface StoredRdwOpenDataVehicle extends RdwOpenDataVehicle {
-    id?:      number
+    id?: number
     queryKey: string
-    digest:   string
+    digest: string
 }
 
 export default class VehicleDatabase extends Dexie {
@@ -94,7 +94,7 @@ export default class VehicleDatabase extends Dexie {
                     if (vehicleIds.length) {
                         this
                             .vehicles
-                            .bulkDelete(vehicleIds);
+                            .bulkDelete(vehicleIds as number[]);
                     }
                 }
             )

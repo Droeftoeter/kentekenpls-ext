@@ -13,8 +13,12 @@
 # production
 /extension/dist/
 
+# analyze
+/parcel-bundle-reports
+
 # misc
 .cache
+.parcel-cache
 .DS_Store
 .env.local
 .env.development.local
