@@ -26,6 +26,7 @@ const Header = ({ className, children, loading, onBack, onCancel }: HeaderProps)
         { onCancel && (
             <IconButton
                 onClick={ onCancel }
+                aria-label="Close"
             >
                 <Icons.Close />
             </IconButton>
