@@ -6,6 +6,7 @@ on:
     branches: [master]
 jobs:
   test:
+    name: "Test Chrome Extension"
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -23,9 +24,3 @@ jobs:
         uses: coactions/setup-xvfb@v1
         with:
           run: npx playwright test
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30

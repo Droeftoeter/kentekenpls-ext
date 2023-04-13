@@ -34,10 +34,12 @@ test("Clicking on a folder moves the navigator into the folder", async ({ page }
     expect(await DIEFSTALGEVOELIG.isVisible()).toBeFalsy();
 
     await PERSONENAUTO.click();
+    await DIEFSTALGEVOELIG.waitFor({ state: "visible" });
     expect(await DIEFSTALGEVOELIG.isVisible()).toBeTruthy();
     expect(await GENERAL.isVisible()).toBeFalsy();
 
     await DIEFSTALGEVOELIG.click();
+    await GENERAL.waitFor({ state: "visible" });
     expect(await GENERAL.isVisible()).toBeTruthy();
 });
 
