@@ -9,6 +9,8 @@
 
 # testing
 /coverage
+/playwright-report
+.chromium
 
 # production
 /extension/dist/

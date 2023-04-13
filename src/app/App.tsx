@@ -53,6 +53,7 @@ const App = ({ styleContainer, targetElement, onVehicle, onCancel }: AppProps) =
     >
         <Theme>
             <Window
+                data-testid="kentekenpls-window"
                 { ...getTargetElementPosition(targetElement) }
             >
                 { isValidTag(targetElement) ? (
