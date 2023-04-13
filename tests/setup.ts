@@ -22,14 +22,16 @@ export const test = base.extend<{
         await context.close();
     },
     openExtension: async ({ context }, use) => {
-        const worker = context.serviceWorkers()[0];
+        const [worker] = context.serviceWorkers();
 
-        use(async () => {
-            await worker.evaluate(() => {
-                // @ts-ignore
-                chrome.commands.onCommand.dispatch("kenteken-pls")
-            });
-        })
+        if (worker) {
+            use(async () => {
+                await worker.evaluate(() => {
+                    // @ts-ignore
+                    chrome.commands.onCommand.dispatch("kenteken-pls")
+                });
+            })
+        }
     },
 });
 
