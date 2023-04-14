@@ -14,8 +14,7 @@ test.describe("user prefers a light colorscheme", () => {
     test("shows category selector in light mode", async ({ page }) => {
         const popout = page.getByTestId("kentekenpls-window");
 
-        const backgroundColor = await popout.evaluate(element => window.getComputedStyle(element).getPropertyValue("background-color"));
-        expect(backgroundColor).toBe("rgb(255, 255, 255)");
+        await expect(popout).toHaveScreenshot();
     });
 });
 
@@ -25,8 +24,7 @@ test.describe("user prefers a dark colorscheme", () => {
     test("shows category selector in dark mode", async ({ page }) => {
         const popout = page.getByTestId("kentekenpls-window");
 
-        const backgroundColor = await popout.evaluate(element => window.getComputedStyle(element).getPropertyValue("background-color"));
-        expect(backgroundColor).toBe("rgb(18, 18, 18)");
+        await expect(popout).toHaveScreenshot();
     });
 });
 

@@ -10,6 +10,11 @@ export default defineConfig({
     use: {
         trace: "on-first-retry"
     },
+    expect: {
+        toHaveScreenshot: {
+            maxDiffPixelRatio: 0.05
+        }
+    },
     projects: [
         {
             name: "chromium",

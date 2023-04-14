@@ -1,7 +1,7 @@
 name: Playwright Tests
 on:
   push:
-    branches: [master, playwright]
+    branches: [master, playwright, visual-testing]
   pull_request:
     branches: [master]
 jobs:
@@ -9,6 +9,8 @@ jobs:
     name: "Test Chrome Extension"
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.32.3-focal
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -19,8 +21,6 @@ jobs:
       - name: Build extension
         run: npm run build
       - name: Install Playwright Chromium Browser
-        run: npx playwright install chromium --with-deps
+        run: npx playwright install chromium
       - name: Run Playwright tests
-        uses: coactions/setup-xvfb@v1
-        with:
-          run: npx playwright test
+        run: xvfb-run --auto-servernum npx playwright test

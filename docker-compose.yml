@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     node:
-        image: node:16
+        image: node:18
         user: 1000:1000
         environment:
             TZ: "Europe/Amsterdam"
@@ -10,3 +10,14 @@ services:
             - .:/app
         working_dir: "/app"
         command: bash -c "npm install && npm run watch"
+
+    playwright:
+        image: mcr.microsoft.com/playwright:v1.32.3-focal
+        user: 1000:1000
+        init: true
+        environment:
+            TZ: "Europe/Amsterdam"
+        volumes:
+            - .:/app
+        working_dir: "/app"
+        entrypoint: xvfb-run --auto-servernum npx playwright
