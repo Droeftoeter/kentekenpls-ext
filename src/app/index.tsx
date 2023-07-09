@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import retargetEvents from 'react-shadow-dom-retarget-events';
 import browser from "webextension-polyfill";
 
@@ -43,9 +43,10 @@ function injectApp(targetElement: Element | HTMLInputElement | null) {
     shadowRoot.appendChild(hostStyle);
 
     document.body.appendChild(target);
+    const root = createRoot(appContainer);
 
     const removeApp = () => {
-        ReactDOM.unmountComponentAtNode(appContainer);
+        root.unmount();
         target.remove();
 
         window.__kentekenpls_remove = null;
@@ -62,14 +63,13 @@ function injectApp(targetElement: Element | HTMLInputElement | null) {
         removeApp();
     }
 
-    ReactDOM.render(
+    root.render(
         <App
             styleContainer={styleContainer}
             targetElement={targetElement}
             onVehicle={handleVehicle}
             onCancel={removeApp}
-        />,
-        appContainer
+        />
     );
 
     retargetEvents(shadowRoot);
