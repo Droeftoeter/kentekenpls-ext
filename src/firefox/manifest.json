@@ -7,6 +7,7 @@
     "permissions": [
         "contextMenus",
         "activeTab",
+        "scripting",
         "*://opendata.rdw.nl/resource/m9d7-ebf2.json"
     ],
     "commands": {
@@ -19,16 +20,29 @@
         }
     },
     "icons": {
-        "16": "icons/16.png",
-        "48": "icons/48.png",
-        "128": "icons/128.png"
+        "16": "../icons/16.png",
+        "48": "../icons/48.png",
+        "128": "../icons/128.png"
     },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "../app/index.tsx"
+            ],
+            "css": [
+                "../fonts/kenteken.css"
+            ]
+        }
+    ],
     "web_accessible_resources": [
-        "fonts/kenteken.woff2"
+        "../fonts/kenteken.woff2"
     ],
     "background": {
         "scripts": [
-            "dist/background/index.js"
+            "../background/index.ts"
         ],
         "persistent": false
     }

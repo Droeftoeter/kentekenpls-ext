@@ -1,55 +1,72 @@
 {
-    "name": "kentekenpls-ext",
-    "version": "2.0.0",
-    "description": "Gemakkelijk testen met kentekens, kies een categorie en kenteken, pls zal een willekeurig (actief) kenteken invoegen in het veld.",
-    "main": "src/app/index.tsx",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Droeftoeter/kentekenpls-ext.git"
+  "name": "kentekenpls-ext",
+  "version": "1.3.3",
+  "description": "Gemakkelijk testen met kentekens, kies een categorie en kenteken, pls zal een willekeurig (actief) kenteken invoegen in het veld.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Droeftoeter/kentekenpls-ext.git"
+  },
+  "author": "Freek Post <freek@kobalt.blue>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Droeftoeter/kentekenpls-ext/issues"
+  },
+  "homepage": "https://github.com/Droeftoeter/kentekenpls-ext#readme",
+  "targets": {
+    "chrome": {
+      "source": "src/chrome/manifest.json",
+      "distDir": "extension/dist/chrome",
+      "engines": {
+        "browsers": "last 2 chrome versions, last 2 edge versions"
+      }
     },
-    "author": "Freek Post <freek@kobalt.blue>",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/Droeftoeter/kentekenpls-ext/issues"
-    },
-    "homepage": "https://github.com/Droeftoeter/kentekenpls-ext#readme",
-    "scripts": {
-        "clean": "rimraf extension/dist/",
-        "build": "npm run clean && parcel build src/app/index.tsx src/background/index.ts -d extension/dist/ --no-source-maps",
-        "watch": "npm run clean && parcel watch src/app/index.tsx src/background/index.ts -d extension/dist/ --no-hmr"
-    },
-    "dependencies": {
-        "dexie": "^3.0.3",
-        "framer-motion": "^3.3.0",
-        "ky": "^0.26.0",
-        "luxon": "^1.25.0",
-        "numeral": "^2.0.6",
-        "react": "^17.0.1",
-        "react-content-loader": "^6.0.1",
-        "react-dom": "^17.0.1",
-        "react-shadow-dom-retarget-events": "^1.0.11",
-        "resize-observer-polyfill": "^1.5.1",
-        "styled-components": "^5.2.1"
-    },
-    "devDependencies": {
-        "@babel/core": "^7.12.16",
-        "@babel/preset-env": "^7.12.16",
-        "@babel/preset-react": "^7.12.13",
-        "@types/chrome": "0.0.130",
-        "@types/luxon": "^1.25.1",
-        "@types/node": "^14.14.26",
-        "@types/numeral": "^2.0.0",
-        "@types/react": "^17.0.1",
-        "@types/react-dom": "^17.0.0",
-        "@types/react-shadow-dom-retarget-events": "^1.0.0",
-        "@types/styled-components": "^5.1.7",
-        "parcel-bundler": "^1.12.4",
-        "rimraf": "^3.0.2",
-        "typescript": "^4.1.5"
-    },
-    "browserslist": [
-        "last 2 Chrome versions",
-        "last 2 Firefox versions",
-        "Firefox ESR"
-    ]
+    "firefox": {
+      "source": "src/firefox/manifest.json",
+      "distDir": "extension/dist/firefox",
+      "engines": {
+        "browsers": "last 2 firefox versions, firefox esr"
+      }
+    }
+  },
+  "scripts": {
+    "clean": "rimraf extension/dist/",
+    "watch": "npm run clean && parcel watch --no-source-maps --no-hmr",
+    "build": "npm run clean && parcel build --no-source-maps",
+    "test": "playwright test",
+    "bundle-report": "npm run clean && parcel build --no-source-maps --reporter @parcel/reporter-bundle-analyzer"
+  },
+  "dependencies": {
+    "dexie": "^3.2.4",
+    "framer-motion": "^10.12.18",
+    "ky": "^0.33.3",
+    "luxon": "^3.3.0",
+    "numeral": "^2.0.6",
+    "react": "^18.2.0",
+    "react-content-loader": "^6.2.1",
+    "react-dom": "^18.2.0",
+    "react-shadow-dom-retarget-events": "^1.1.0",
+    "resize-observer-polyfill": "^1.5.1",
+    "styled-components": "^6.0.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.8",
+    "@babel/preset-env": "^7.22.7",
+    "@babel/preset-react": "^7.22.5",
+    "@parcel/config-webextension": "^2.9.3",
+    "@parcel/reporter-bundle-analyzer": "^2.9.3",
+    "@playwright/test": "^1.35.1",
+    "@types/chrome": "^0.0.240",
+    "@types/luxon": "^3.3.0",
+    "@types/node": "^20.4.1",
+    "@types/numeral": "^2.0.2",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
+    "@types/react-shadow-dom-retarget-events": "^1.0.0",
+    "@types/webextension-polyfill": "^0.10.1",
+    "parcel": "^2.9.3",
+    "process": "^0.11.10",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.1.6",
+    "webextension-polyfill": "^0.10.0"
+  }
 }

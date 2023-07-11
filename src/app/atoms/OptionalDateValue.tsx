@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { DateTime } from 'luxon';
 
 type OptionalDateValueProps = JSX.IntrinsicElements["time"] & {
@@ -13,7 +13,7 @@ const OptionalDateValue = ({ value, ...rest }: OptionalDateValueProps) => {
     if (dateTime.isValid) {
         return (
             <time
-                dateTime={ dateTime.toISODate() }
+                dateTime={ dateTime.toISODate() ?? undefined }
                 { ...rest }
             >
                 { dateTime.toLocaleString(DateTime.DATE_FULL) }

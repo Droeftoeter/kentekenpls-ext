@@ -1,5 +1,4 @@
-import { DateTime } from 'luxon';
-
+import { subDays, queryFormat } from './utils/date';
 import { Category } from '../common/types';
 
 const HighRiskOfTheft = [
@@ -11,41 +10,41 @@ const HighRiskOfTheft = [
 const Where = {
     Personenauto: "voertuigsoort = 'Personenauto'",
     Bedrijfsauto: "voertuigsoort = 'Bedrijfsauto'",
-    Motorfiets:   "voertuigsoort = 'Motorfiets'",
-    Bromfiets:    "voertuigsoort = 'Bromfiets'",
+    Motorfiets: "voertuigsoort = 'Motorfiets'",
+    Bromfiets: "voertuigsoort = 'Bromfiets'",
     Aanhangwagen: "voertuigsoort = 'Aanhangwagen'",
-    Oplegger:     "voertuigsoort = 'Oplegger'",
+    Oplegger: "voertuigsoort = 'Oplegger'",
 
     // Elektrisch (BETA)
-    WelElektrisch:  "cilinderinhoud IS NULL",
+    WelElektrisch: "cilinderinhoud IS NULL",
     NietElektrisch: "cilinderinhoud IS NOT NULL",
 
     // Inrichting
-    Caravan:      "inrichting = 'caravan'",
+    Caravan: "inrichting = 'caravan'",
 
     // Import
-    Import:        "datum_eerste_toelating < datum_eerste_afgifte_nederland",
+    Import: "datum_eerste_toelating < datum_eerste_afgifte_nederland",
 
     // Wielen
-    TweeWielen:    "aantal_wielen = 2",
-    DrieWielen:    "aantal_wielen = 3",
-    VierWielen:    "aantal_wielen = 4",
+    TweeWielen: "aantal_wielen = 2",
+    DrieWielen: "aantal_wielen = 3",
+    VierWielen: "aantal_wielen = 4",
 
     // Constr.Snelheid
-    Max45:         "maximale_constructiesnelheid_brom_snorfiets = 45",
-    Max25:         "maximale_constructiesnelheid_brom_snorfiets = 25",
+    Max45: "maximale_constructiesnelheid_brom_snorfiets = 45",
+    Max25: "maximale_constructiesnelheid_brom_snorfiets = 25",
 
     // Kampeerwagen
-    GeenCamper:    "inrichting != 'kampeerwagen'",
-    WelCamper:     "inrichting = 'kampeerwagen'",
+    GeenCamper: "inrichting != 'kampeerwagen'",
+    WelCamper: "inrichting = 'kampeerwagen'",
 
     // Oldtimer
     GeenOldtimer: "datum_eerste_toelating >= 19780101",
-    WelOldtimer:  "datum_eerste_toelating < 19780101",
+    WelOldtimer: "datum_eerste_toelating < 19780101",
 
     // Taxi
-    GeenTaxi:     "taxi_indicator = 'Nee'",
-    WelTaxi:      "taxi_indicator = 'Ja'",
+    GeenTaxi: "taxi_indicator = 'Nee'",
+    WelTaxi: "taxi_indicator = 'Ja'",
 
     // Export
     NietExport: "export_indicator = 'Nee'",
@@ -122,11 +121,11 @@ const categories: Category = {
     items: [
         // Personenauto
         {
-            id:    'personenauto',
+            id: 'personenauto',
             title: 'Personenauto',
             items: [
                 {
-                    id:    'personenauto',
+                    id: 'personenauto',
                     title: 'Personenauto',
                     where: [
                         Where.NietExport,
@@ -138,7 +137,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'personenauto-nieuw',
+                    id: 'personenauto-nieuw',
                     title: 'Recent op kenteken',
                     where: [
                         Where.NietExport,
@@ -147,11 +146,11 @@ const categories: Category = {
                         Where.GeenTaxi,
                         Where.GeenOldtimer,
                         Where.GeenCamper,
-                        `datum_eerste_afgifte_nederland >= ${ DateTime.local().plus({ days: -2 }).toFormat('yyyyLLdd') }`,
+                        `datum_eerste_afgifte_nederland >= ${queryFormat(subDays(new Date(), 2))}`,
                     ],
                 },
                 {
-                    id:    'personenauto-vermogen',
+                    id: 'personenauto-vermogen',
                     title: 'Hoog relatief vermogen',
                     where: [
                         Where.NietExport,
@@ -164,11 +163,11 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'personenauto-catwaarde',
+                    id: 'personenauto-catwaarde',
                     title: 'Cataloguswaarde',
                     items: [
                         {
-                            id:    'personenauto-catwaarde-0-20k',
+                            id: 'personenauto-catwaarde-0-20k',
                             title: 'tot € 20.000',
                             where: [
                                 Where.NietExport,
@@ -181,7 +180,7 @@ const categories: Category = {
                             ],
                         },
                         {
-                            id:    'personenauto-catwaarde-20k-35k',
+                            id: 'personenauto-catwaarde-20k-35k',
                             title: '€ 20.000 tot € 35.000',
                             where: [
                                 Where.NietExport,
@@ -195,7 +194,7 @@ const categories: Category = {
                             ],
                         },
                         {
-                            id:    'personenauto-catwaarde-35k-50k',
+                            id: 'personenauto-catwaarde-35k-50k',
                             title: '€ 35.000 tot € 50.000',
                             where: [
                                 Where.NietExport,
@@ -252,11 +251,11 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'personenauto-diefstalgevoelig',
+                    id: 'personenauto-diefstalgevoelig',
                     title: 'Diefstalgevoelig',
                     items: [
                         {
-                            id:    'personenauto-diefstalgevoelig-algemeen',
+                            id: 'personenauto-diefstalgevoelig-algemeen',
                             title: 'Algemeen',
                             where: [
                                 Where.NietExport,
@@ -265,11 +264,11 @@ const categories: Category = {
                                 Where.GeenTaxi,
                                 Where.GeenOldtimer,
                                 Where.GeenCamper,
-                                `(${ HighRiskOfTheft.map(v => `(${ v })`).join(' OR ') })`,
+                                `(${HighRiskOfTheft.map(v => `(${v})`).join(' OR ')})`,
                             ],
                         },
                         {
-                            id:    'personenauto-diefstalgevoelig-audi-s',
+                            id: 'personenauto-diefstalgevoelig-audi-s',
                             title: 'Audi S',
                             where: [
                                 Where.NietExport,
@@ -279,11 +278,11 @@ const categories: Category = {
                                 Where.GeenOldtimer,
                                 Where.GeenCamper,
                                 `merk = 'AUDI'`,
-                                `(${ ['TTS', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8'].map(v => `starts_with(\`handelsbenaming\`, '${ v }')` ).join(' OR ') })`,
+                                `(${['TTS', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8'].map(v => `starts_with(\`handelsbenaming\`, '${v}')`).join(' OR ')})`,
                             ],
                         },
                         {
-                            id:    'personenauto-diefstalgevoelig-audi-sq',
+                            id: 'personenauto-diefstalgevoelig-audi-sq',
                             title: 'Audi SQ',
                             where: [
                                 Where.NietExport,
@@ -293,11 +292,11 @@ const categories: Category = {
                                 Where.GeenOldtimer,
                                 Where.GeenCamper,
                                 `merk = 'AUDI'`,
-                                `(${ ['SQ2', 'SQ5', 'SQ7', 'SQ8'].map(v => `starts_with(\`handelsbenaming\`, '${ v }')` ).join(' OR ') })`,
+                                `(${['SQ2', 'SQ5', 'SQ7', 'SQ8'].map(v => `starts_with(\`handelsbenaming\`, '${v}')`).join(' OR ')})`,
                             ],
                         },
                         {
-                            id:    'personenauto-diefstalgevoelig-audi-rs',
+                            id: 'personenauto-diefstalgevoelig-audi-rs',
                             title: 'Audi RS',
                             where: [
                                 Where.NietExport,
@@ -307,11 +306,11 @@ const categories: Category = {
                                 Where.GeenOldtimer,
                                 Where.GeenCamper,
                                 `merk = 'AUDI'`,
-                                `(${ ['TT RS', 'RS 3', 'RS 4', 'RS 5', 'RS 6', 'RS 7', 'RS Q3', 'RS Q8'].map(v => `starts_with(\`handelsbenaming\`, '${ v }')` ).join(' OR ') })`,
+                                `(${['TT RS', 'RS 3', 'RS 4', 'RS 5', 'RS 6', 'RS 7', 'RS Q3', 'RS Q8'].map(v => `starts_with(\`handelsbenaming\`, '${v}')`).join(' OR ')})`,
                             ],
                         },
                         {
-                            id:    'personenauto-diefstalgevoelig-bmw-m',
+                            id: 'personenauto-diefstalgevoelig-bmw-m',
                             title: 'BMW M',
                             where: [
                                 Where.NietExport,
@@ -321,11 +320,11 @@ const categories: Category = {
                                 Where.GeenOldtimer,
                                 Where.GeenCamper,
                                 `merk = 'BMW'`,
-                                `(${ ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'X3 M', 'X5 M', 'X7 M'].map(v => `starts_with(\`handelsbenaming\`, '${ v }')` ).join(' OR ') })`,
+                                `(${['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'X3 M', 'X5 M', 'X7 M'].map(v => `starts_with(\`handelsbenaming\`, '${v}')`).join(' OR ')})`,
                             ],
                         },
                         {
-                            id:    'personenauto-diefstalgevoelig-mercedes-benz-amg',
+                            id: 'personenauto-diefstalgevoelig-mercedes-benz-amg',
                             title: 'Mercedes-Benz AMG',
                             where: [
                                 Where.NietExport,
@@ -341,7 +340,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'personenauto-import',
+                    id: 'personenauto-import',
                     title: 'Geimporteerd',
                     where: [
                         Where.NietExport,
@@ -354,7 +353,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'personenauto-oldtimer',
+                    id: 'personenauto-oldtimer',
                     title: 'Oldtimer',
                     where: [
                         Where.NietExport,
@@ -366,7 +365,7 @@ const categories: Category = {
                     ]
                 },
                 {
-                    id:    'personenauto-kampeerwagen',
+                    id: 'personenauto-kampeerwagen',
                     title: 'Kampeerwagen',
                     where: [
                         Where.NietExport,
@@ -378,7 +377,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'personenauto-taxi',
+                    id: 'personenauto-taxi',
                     title: 'Taxi',
                     where: [
                         Where.NietExport,
@@ -394,11 +393,11 @@ const categories: Category = {
 
         // Bedrijfswagens
         {
-            id:    'bedrijfswagens',
+            id: 'bedrijfswagens',
             title: 'Bedrijfswagens',
             items: [
                 {
-                    id:    'bedrijfswagens',
+                    id: 'bedrijfswagens',
                     title: 'Bedrijfswagen',
                     where: [
                         Where.NietExport,
@@ -408,7 +407,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'bedrijfswagens-licht',
+                    id: 'bedrijfswagens-licht',
                     title: 'Licht',
                     where: [
                         Where.NietExport,
@@ -419,7 +418,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'bedrijfswagens-middelzwaar',
+                    id: 'bedrijfswagens-middelzwaar',
                     title: 'Middelzwaar',
                     where: [
                         Where.NietExport,
@@ -430,7 +429,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'bedrijfswagens-zwaar',
+                    id: 'bedrijfswagens-zwaar',
                     title: 'Zwaar',
                     where: [
                         Where.NietExport,
@@ -445,11 +444,11 @@ const categories: Category = {
 
         // Brom- en snorfietsen
         {
-            id:    'bromsnorfiets',
+            id: 'bromsnorfiets',
             title: 'Brom- en snorfietsen',
             items: [
                 {
-                    id:    'bromsnorfiets-bromfiets',
+                    id: 'bromsnorfiets-bromfiets',
                     title: 'Bromfiets',
                     where: [
                         Where.NietExport,
@@ -460,7 +459,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'bromsnorfiets-snorfiets',
+                    id: 'bromsnorfiets-snorfiets',
                     title: 'Snorfiets',
                     where: [
                         Where.NietExport,
@@ -471,7 +470,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'bromsnorfiets-quad',
+                    id: 'bromsnorfiets-quad',
                     title: 'Quad',
                     where: [
                         Where.NietExport,
@@ -481,7 +480,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'bromsnorfiets-brommobiel',
+                    id: 'bromsnorfiets-brommobiel',
                     title: 'Brommobiel',
                     where: [
                         Where.NietExport,
@@ -491,7 +490,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'bromsnorfiets-oldtimer',
+                    id: 'bromsnorfiets-oldtimer',
                     title: 'Oldtimer',
                     where: [
                         Where.NietExport,
@@ -501,7 +500,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'bromsnorfiets-speed-pedelec',
+                    id: 'bromsnorfiets-speed-pedelec',
                     title: 'Speed-pedelec',
                     where: [
                         Where.NietExport,
@@ -518,11 +517,11 @@ const categories: Category = {
 
         // Motor
         {
-            id:    'motor',
+            id: 'motor',
             title: 'Motor',
             items: [
                 {
-                    id:    'motor',
+                    id: 'motor',
                     title: 'Motor',
                     where: [
                         Where.NietExport,
@@ -531,7 +530,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'motor-zijspan',
+                    id: 'motor-zijspan',
                     title: 'Motor met zijspan',
                     where: [
                         Where.NietExport,
@@ -539,7 +538,7 @@ const categories: Category = {
                     ]
                 },
                 {
-                    id:    'motor-trike',
+                    id: 'motor-trike',
                     title: 'Trike',
                     where: [
                         Where.NietExport,
@@ -547,7 +546,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'motor-quad',
+                    id: 'motor-quad',
                     title: 'Quad',
                     where: [
                         Where.NietExport,
@@ -555,7 +554,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'motor-import',
+                    id: 'motor-import',
                     title: 'Geimporteerd',
                     where: [
                         Where.NietExport,
@@ -565,7 +564,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'motor-oldtimer',
+                    id: 'motor-oldtimer',
                     title: 'Oldtimer',
                     where: [
                         Where.NietExport,
@@ -581,16 +580,16 @@ const categories: Category = {
             title: 'Bijzondere voertuigen',
             items: [
                 {
-                    id:    'special-land-bosbouw-trekker',
+                    id: 'special-land-bosbouw-trekker',
                     title: '(Land)bouw trekker',
                     where: [
                         Where.NietExport,
-                        `(${ Where.EuroT } OR ${ Where.EuroC })`,
+                        `(${Where.EuroT} OR ${Where.EuroC})`,
                         'starts_with(UPPER(kenteken), \'T\')',
                     ],
                 },
                 {
-                    id:    'special-land-bosbouw-aanhangwagen',
+                    id: 'special-land-bosbouw-aanhangwagen',
                     title: '(Land)bouw aanhangwagen',
                     where: [
                         Where.NietExport,
@@ -599,7 +598,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'special-land-bosbouw-uitrusting',
+                    id: 'special-land-bosbouw-uitrusting',
                     title: 'Getrokken machine',
                     where: [
                         Where.NietExport,
@@ -608,7 +607,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'special-mobiele-machine',
+                    id: 'special-mobiele-machine',
                     title: 'Mobiele machine',
                     where: [
                         Where.NietExport,
@@ -617,7 +616,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'special-mmbs',
+                    id: 'special-mmbs',
                     title: 'MMBS',
                     where: [
                         Where.NietExport,
@@ -630,11 +629,11 @@ const categories: Category = {
 
         // Aanhangwagen
         {
-            id:    'aanhangwagen',
+            id: 'aanhangwagen',
             title: 'Aanhangwagen',
             items: [
                 {
-                    id:    'aanhangwagen',
+                    id: 'aanhangwagen',
                     title: 'Aanhangwagen',
                     where: [
                         Where.NietExport,
@@ -642,7 +641,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'aanhangwagen-caravan',
+                    id: 'aanhangwagen-caravan',
                     title: 'Caravan',
                     where: [
                         Where.NietExport,
@@ -651,7 +650,7 @@ const categories: Category = {
                     ],
                 },
                 {
-                    id:    'aanhangwagen-oplegger',
+                    id: 'aanhangwagen-oplegger',
                     title: 'Oplegger',
                     where: [
                         Where.NietExport,

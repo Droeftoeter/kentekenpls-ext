@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { JSX, useRef, useState, useEffect } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 import { motion } from 'framer-motion';
 

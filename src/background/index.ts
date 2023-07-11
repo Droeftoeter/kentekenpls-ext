@@ -1,80 +1,54 @@
-import { RdwOpenDataVehicle } from '../common/types';
+import browser from "webextension-polyfill";
+
+import { BrowserMessage } from '../common/types';
 import findMatchingVehicle from './findMatchingVehicle';
 
-function createMenu(): void {
-    chrome.commands.getAll(
-        commands => {
-            const shortCut = commands.find(c => c.name === 'kenteken-pls');
+async function openInCurrentTab() {
+    const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
 
-            chrome.contextMenus.create({
-                id:       'kenteken-pls',
-                title:    `Kenteken invoegen ${ shortCut && shortCut.shortcut ? `(${ shortCut.shortcut })` : '' }`.trim(),
-                contexts: ['editable'],
-            });
-        }
-    );
+    if (tab && tab.id) {
+        browser.tabs.sendMessage(tab.id, { action: 'open' });
+    }
 }
 
-function inject(): void {
-    const fontUrl = chrome.extension.getURL('fonts/kenteken.woff2');
+async function createMenu(): Promise<void> {
+    const commands = await browser.commands.getAll();
+    const shortCut = commands.find(c => c.name === 'kenteken-pls');
 
-    chrome
-        .tabs
-        .insertCSS(
-            {
-                code: `
-                @font-face {
-                    font-family:  'Kenteken';
-                    font-style:   normal;
-                    font-display: auto;
-                    font-weight:  400;
-                    src:          url('${ fontUrl }')
-                }
-            `
-            }
-        );
-
-    chrome.tabs.executeScript({
-        file: 'dist/app/index.js',
+    browser.contextMenus.create({
+        id: 'kenteken-pls',
+        title: `Kenteken invoegen ${shortCut && shortCut.shortcut ? `(${shortCut.shortcut})` : ''}`.trim(),
+        contexts: ['editable'],
     });
 }
 
-type ChromeMessage =
-    | { action: 'fetch-vehicle', payload: { id: string, where: string } }
-    | any;
-
-chrome.runtime.onMessage.addListener(
-    (message: ChromeMessage, _, callback: (result: { resolved?: RdwOpenDataVehicle, error?: string }) => void) => {
-
+browser.runtime.onMessage.addListener(
+    (message: BrowserMessage) => {
         if (message.action === 'fetch-vehicle') {
             const { id, where } = message.payload;
 
-            findMatchingVehicle(id, where)
-                .then(vehicle => callback({ resolved: vehicle }))
-                .catch(error => callback({ error: error.toString() }));
-
-            return true;
+            return findMatchingVehicle(id, where);
         }
     },
 );
 
-chrome.commands.onCommand.addListener(
+browser.commands.onCommand.addListener(
     name => {
         if (name === 'kenteken-pls') {
-            inject();
+            openInCurrentTab();
         }
     }
 );
 
-chrome.contextMenus.onClicked.addListener(
+browser.contextMenus.onClicked.addListener(
     ({ menuItemId }) => {
         if (menuItemId === 'kenteken-pls') {
-            inject();
+            openInCurrentTab();
         }
     }
 );
 
-chrome.runtime.onInstalled.addListener(
+browser.runtime.onInstalled.addListener(
     () => {
         createMenu();
     }

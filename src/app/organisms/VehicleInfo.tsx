@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DateTime } from 'luxon';
 import ContentLoader from 'react-content-loader';
 import { motion, AnimatePresence } from 'framer-motion';
 

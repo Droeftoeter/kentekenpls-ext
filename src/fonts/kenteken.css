@@ -1,0 +1,7 @@
+@font-face {
+    font-family: 'Kenteken';
+    font-style: normal;
+    font-display: auto;
+    font-weight: 400;
+    src: url("chrome-extension://__MSG_@@extension_id__/up_/fonts/kenteken.woff2");
+}

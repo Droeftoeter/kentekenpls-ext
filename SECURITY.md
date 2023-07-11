@@ -6,7 +6,8 @@ Supported versions will receive patches for security vulnerabilities
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.2.x   | :white_check_mark: |
+| 1.3.x   | :white_check_mark: |
+| 1.2.x   | :x:                |
 | 1.1.x   | :x:                |
 | 1.0.x   | :x:                |
 

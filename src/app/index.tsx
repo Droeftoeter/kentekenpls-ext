@@ -1,13 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import retargetEvents from 'react-shadow-dom-retarget-events';
+import browser from "webextension-polyfill";
 
-import { RdwOpenDataVehicle } from '../common/types';
+import { RdwOpenDataVehicle, BrowserMessage } from '../common/types';
 
 import App from './App';
 
 declare global {
-    interface Window { __kentekenpls_remove: null|(() => void) }
+    interface Window { __kentekenpls_remove: null | (() => void) }
 }
 
 window.__kentekenpls_remove = window.__kentekenpls_remove || null;
@@ -17,7 +18,7 @@ window.__kentekenpls_remove = window.__kentekenpls_remove || null;
  *
  * @param {Element|HTMLInputElement|null} targetElement
  */
-function injectApp(targetElement: Element|HTMLInputElement|null) {
+function injectApp(targetElement: Element | HTMLInputElement | null) {
     if (!targetElement) {
         return null;
     }
@@ -42,9 +43,10 @@ function injectApp(targetElement: Element|HTMLInputElement|null) {
     shadowRoot.appendChild(hostStyle);
 
     document.body.appendChild(target);
+    const root = createRoot(appContainer);
 
     const removeApp = () => {
-        ReactDOM.unmountComponentAtNode(appContainer);
+        root.unmount();
         target.remove();
 
         window.__kentekenpls_remove = null;
@@ -59,14 +61,13 @@ function injectApp(targetElement: Element|HTMLInputElement|null) {
         targetElement.dispatchEvent(new Event('blur', { bubbles: true }));
     }
 
-    ReactDOM.render(
+    root.render(
         <App
-            styleContainer={ styleContainer }
-            targetElement={ targetElement }
-            onVehicle={ handleVehicle }
-            onCancel={ removeApp }
-        />,
-        appContainer
+            styleContainer={styleContainer}
+            targetElement={targetElement}
+            onVehicle={handleVehicle}
+            onCancel={removeApp}
+        />
     );
 
     retargetEvents(shadowRoot);
@@ -74,11 +75,16 @@ function injectApp(targetElement: Element|HTMLInputElement|null) {
     return removeApp;
 }
 
-/**
- * Remove previous instances of kentekenpls.
- */
-if (typeof window.__kentekenpls_remove === 'function') {
-    window.__kentekenpls_remove();
-}
+browser.runtime.onMessage.addListener(
+    (message: BrowserMessage) => {
+        if (message.action === 'open') {
+            if (typeof window.__kentekenpls_remove === 'function') {
+                window.__kentekenpls_remove();
+            }
 
-window.__kentekenpls_remove = injectApp(document.activeElement);
+            window.__kentekenpls_remove = injectApp(document.activeElement);
+        }
+    },
+);
+
+

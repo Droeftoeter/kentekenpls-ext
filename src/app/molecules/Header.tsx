@@ -15,10 +15,12 @@ type HeaderProps = JSX.IntrinsicElements["header"] & {
 const Header = ({ className, children, loading, onBack, onCancel, onRefresh }: HeaderProps) => (
     <header
         className={ className }
+        aria-busy={ loading ? true : undefined }
     >
         { loading ? <Loader /> : onBack ? (
             <IconButton
                 onClick={ onBack }
+                aria-label="Back"
             >
                 <Icons.ArrowBack />
             </IconButton>
@@ -34,6 +36,7 @@ const Header = ({ className, children, loading, onBack, onCancel, onRefresh }: H
         { onCancel && (
             <IconButton
                 onClick={ onCancel }
+                aria-label="Close"
             >
                 <Icons.Close />
             </IconButton>

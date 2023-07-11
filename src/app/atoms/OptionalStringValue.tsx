@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 
 type OptionalStringValueProps = JSX.IntrinsicElements["span"] & {
     value?:  string

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
 import { RdwOpenDataVehicle, Query } from '../../common/types';
-import sendMessagePromise from '../util/sendMessagePromise';
 
 import { Header, Error } from '../molecules';
+import useRandomVehicle from '../hooks/useRandomVehicle';
 
 import CategorySelector from './CategorySelector';
 import VehicleInfo from './VehicleInfo';
@@ -16,7 +16,8 @@ type CategorizedRandomVehicleSelectorProps = {
 const CategorizedRandomVehicleSelector = ({ onVehicle, onCancel }: CategorizedRandomVehicleSelectorProps) => {
     const [ query, setQuery ] = useState<Query|null>(null);
     const [ vehicle, setVehicle ] = useState<RdwOpenDataVehicle|null>(null);
-    const [ error, setError ] = useState<string|null>(null);
+
+    const { getVehicle, loading, error } = useRandomVehicle();
 
     const fetchVehicle = useCallback(
         () => {
@@ -24,9 +25,7 @@ const CategorizedRandomVehicleSelector = ({ onVehicle, onCancel }: CategorizedRa
                 return () => {};
             }
 
-            sendMessagePromise<RdwOpenDataVehicle>({ action: 'fetch-vehicle', payload: query })
-                .then(vehicle => setVehicle(vehicle))
-                .catch(error => setError(error.toString()));
+            getVehicle(query.id, query.where, setVehicle);
         },
         [ query ],
     );
