@@ -1,6 +1,6 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 
-import { PersonWithFoldingHands } from '../emoji';
+import { PersonWithFoldingHands } from "../emoji";
 
 const wiggleWiggleAnimation = keyframes`
     from {
@@ -13,7 +13,7 @@ const wiggleWiggleAnimation = keyframes`
 `;
 
 const Loader = styled(PersonWithFoldingHands)`
-    animation: ${ wiggleWiggleAnimation } 300ms linear infinite alternate;
+    animation: ${wiggleWiggleAnimation} 300ms linear infinite alternate;
 `;
 
 export default Loader;

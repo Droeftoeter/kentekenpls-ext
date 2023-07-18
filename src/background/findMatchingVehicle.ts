@@ -1,7 +1,6 @@
-import ky from 'ky';
-
-import { RdwOpenDataVehicle } from '../common/types';
-import VehicleDatabase from './VehicleDatabase';
+import { ExtendedOpenDataVehicle } from "../common/types";
+import { getVehicleCount, getVehicles, getFuelTypesByVehicles } from "./api";
+import VehicleDatabase from "./VehicleDatabase";
 
 const VehicleDb = new VehicleDatabase();
 
@@ -14,11 +13,9 @@ const VehicleDb = new VehicleDatabase();
  * @return {number}
  */
 function getRandomOffset(results: number, minResults: number): number {
-    const maxOffset = results > minResults
-        ? results - minResults
-        : 0;
+  const maxOffset = results > minResults ? results - minResults : 0;
 
-    return Math.floor(Math.random() * maxOffset);
+  return Math.floor(Math.random() * maxOffset);
 }
 
 /**
@@ -29,12 +26,13 @@ function getRandomOffset(results: number, minResults: number): number {
  * @return {string}
  */
 async function createDigest(input: string): Promise<string> {
-    const encoder = new TextEncoder();
+  const encoder = new TextEncoder();
 
-    return Array
-        .from(new Uint8Array(await crypto.subtle.digest('SHA-1', encoder.encode(input))))
-        .map(b => b.toString(16).padStart(2, '0'))
-        .join('');
+  return Array.from(
+    new Uint8Array(await crypto.subtle.digest("SHA-1", encoder.encode(input))),
+  )
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 /**
@@ -42,19 +40,27 @@ async function createDigest(input: string): Promise<string> {
  *
  * @param {string[]} where
  */
-async function fetchVehicles (where: string[] = []): Promise<RdwOpenDataVehicle[]> {
-    const flatWhere = where.join(' AND ');
+async function fetchVehicles(
+  where: string[] = [],
+): Promise<ExtendedOpenDataVehicle[]> {
+  // Count total matching vehicles and select a random set from within all vehicles to vary results across multiple runs.
+  const matchingVehicleCount = await getVehicleCount(where);
+  const offset = getRandomOffset(matchingVehicleCount, 40);
 
-    const result = await ky
-        .get(`https://opendata.rdw.nl/resource/m9d7-ebf2.json?$select=count(kenteken)&$where=${ flatWhere }`, { timeout: 300000, credentials: 'omit' })
-        .json<{ count_kenteken?: number }[]>();
+  // Fetch vehicles and fuel information
+  const vehicles = await getVehicles(where, offset);
+  const fuelTypes = await getFuelTypesByVehicles(vehicles);
 
-    const totalVehicles = Number(result[ 0 ].count_kenteken ?? 0);
-
-    const offset = getRandomOffset(totalVehicles, 40);
-    return await ky
-        .get(`https://opendata.rdw.nl/resource/m9d7-ebf2.json?$where=${ flatWhere }&$limit=40&$offset=${ offset }`, { timeout: 300000, credentials: 'omit' })
-        .json<RdwOpenDataVehicle[]>();
+  // Combine results
+  return vehicles.map((vehicle) => ({
+    ...vehicle,
+    brandstof_omschrijving: fuelTypes
+      .filter((fuelType) => fuelType.kenteken === vehicle.kenteken)
+      .map((fuelType) => fuelType.brandstof_omschrijving),
+    nettomaximumvermogen: fuelTypes.find(
+      (fuelType) => fuelType.kenteken === vehicle.kenteken,
+    )?.nettomaximumvermogen,
+  }));
 }
 
 /**
@@ -65,41 +71,54 @@ async function fetchVehicles (where: string[] = []): Promise<RdwOpenDataVehicle[
  * @param {string}   queryKey
  * @param {string[]} where
  *
- * @return {Promise<RdwOpenDataVehicle>}
+ * @return {Promise<ExtendedOpenDataVehicle>}
  */
-export default async function findMatchingVehicle(queryKey: string, where: string[]): Promise<RdwOpenDataVehicle> {
-    const digest = await createDigest(`${ VehicleDb.schemaVersion }-${ where.join('') }`);
+export default async function findMatchingVehicle(
+  queryKey: string,
+  where: string[],
+): Promise<ExtendedOpenDataVehicle> {
+  const digest = await createDigest(
+    `${VehicleDb.schemaVersion}-${where.join("")}`,
+  );
 
-    const storedVehicles = await VehicleDb.getByQueryKeyAndDigest(queryKey, digest);
-    VehicleDb.removeByQueryKeyWhereDigestDoesNotMatch(queryKey, digest);
+  const storedVehicles = await VehicleDb.getByQueryKeyAndDigest(
+    queryKey,
+    digest,
+  );
+  VehicleDb.removeByQueryKeyWhereDigestDoesNotMatch(queryKey, digest);
 
-    // If there are no stored vehicles, fetch a new set from the RDW.
-    if (!storedVehicles.length) {
-        const fetchedVehicles = await fetchVehicles(where);
-        const firstFetchedVehicle = fetchedVehicles.shift();
+  // If there are no stored vehicles, fetch a new set from the RDW.
+  if (!storedVehicles.length) {
+    const fetchedVehicles = await fetchVehicles(where);
+    const firstFetchedVehicle = fetchedVehicles.shift();
 
-        if (!firstFetchedVehicle) {
-            throw 'Geen resultaten gevonden.';
-        }
-
-        fetchedVehicles.forEach(vehicle => VehicleDb.saveVehicle(queryKey, digest, vehicle));
-
-        return firstFetchedVehicle;
+    if (!firstFetchedVehicle) {
+      throw "Geen resultaten gevonden.";
     }
 
-    const firstStoredVehicle = storedVehicles.shift();
+    fetchedVehicles.forEach((vehicle) =>
+      VehicleDb.saveVehicle(queryKey, digest, vehicle),
+    );
 
-    if (!firstStoredVehicle || !firstStoredVehicle.id) {
-        throw 'Geen resultaten gevonden.';
-    }
+    return firstFetchedVehicle;
+  }
 
-    VehicleDb.removeById(firstStoredVehicle.id);
+  const firstStoredVehicle = storedVehicles.shift();
 
-    // If there are less than 5 stored vehicles left, re-fresh the set in the background.
-    if (storedVehicles.length < 5) {
-        fetchVehicles(where)
-            .then(fetchedVehicles => fetchedVehicles.forEach(vehicle => VehicleDb.saveVehicle(queryKey, digest, vehicle)));
-    }
+  if (!firstStoredVehicle || !firstStoredVehicle.id) {
+    throw "Geen resultaten gevonden.";
+  }
 
-    return firstStoredVehicle;
+  VehicleDb.removeById(firstStoredVehicle.id);
+
+  // If there are less than 5 stored vehicles left, re-fresh the set in the background.
+  if (storedVehicles.length < 5) {
+    fetchVehicles(where).then((fetchedVehicles) =>
+      fetchedVehicles.forEach((vehicle) =>
+        VehicleDb.saveVehicle(queryKey, digest, vehicle),
+      ),
+    );
+  }
+
+  return firstStoredVehicle;
 }

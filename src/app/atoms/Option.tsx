@@ -1,20 +1,22 @@
-import React, { JSX } from 'react';
-import styled from 'styled-components';
+import React, { JSX } from "react";
+import styled from "styled-components";
 
 type OptionProps = JSX.IntrinsicElements["a"] & {
-    icon:   React.ReactNode
-    active: boolean
+  icon: React.ReactNode;
+  active: boolean;
 };
 
-const Option = ({ className, children, icon, active, ...rest }: OptionProps) => (
-    <a
-        className={ className }
-        tabIndex={ 1 }
-        { ...rest }
-    >
-        { children }
-        { icon }
-    </a>
+const Option = ({
+  className,
+  children,
+  icon,
+  active,
+  ...rest
+}: OptionProps) => (
+  <a className={className} {...rest}>
+    {children}
+    {icon}
+  </a>
 );
 
 export default styled(Option)`
@@ -32,22 +34,25 @@ export default styled(Option)`
 
     font-size: 1rem;
 
-    color: ${ props => props.theme.subtleTextColor };
+    color: ${(props) => props.theme.subtleTextColor};
 
     svg {
         height: .875rem;
         width:  auto;
         margin: 0 0 0 auto;
-        fill:   ${ props => props.theme.iconColor };
+        fill:   ${(props) => props.theme.iconColor};
     }
 
     &:hover, &:focus {
-        background: ${ props => props.theme.focusColor };
+        background: ${(props) => props.theme.focusColor};
         outline:    none;
     }
 
-    ${ props => props.active ? `
-        background: ${ props.theme.focusColor };
+    ${(props) =>
+      props.active
+        ? `
+        background: ${props.theme.focusColor};
         outline:    none;
-    ` : '' }
+    `
+        : ""}
 `;
