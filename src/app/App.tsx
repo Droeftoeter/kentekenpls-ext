@@ -1,19 +1,20 @@
-import React from 'react';
-import { StyleSheetManager } from 'styled-components';
+import React from "react";
+import { StyleSheetManager } from "styled-components";
 
-import Theme from './Theme';
+import Theme from "./Theme";
 
-import { Error } from './molecules';
-import { Selector } from './organisms';
-import { Window } from './templates';
+import { ErrorMessage } from "./molecules";
+import { Selector } from "./organisms";
+import { Window } from "./templates";
+import { RdwOpenDataVehicle } from "../common/types";
 
 /**
  * Check if the element is INPUT or TEXTAREA
  *
  * @param {Element} element
  */
-function isValidTag (element: Element) {
-    return ['INPUT', 'TEXTAREA'].includes(element.tagName.toUpperCase());
+function isValidTag(element: Element) {
+  return ["INPUT", "TEXTAREA"].includes(element.tagName.toUpperCase());
 }
 
 /**
@@ -21,21 +22,24 @@ function isValidTag (element: Element) {
  *
  * @param {Element} element
  */
-function getTargetElementPosition (element: Element): { left: number, top: number } {
-    const { top, height, left } = element.getBoundingClientRect();
-    const { scrollX, scrollY } = window;
+function getTargetElementPosition(element: Element): {
+  left: number;
+  top: number;
+} {
+  const { top, height, left } = element.getBoundingClientRect();
+  const { scrollX, scrollY } = window;
 
-    return {
-        left: left + scrollX,
-        top:  top + height + scrollY,
-    };
+  return {
+    left: left + scrollX,
+    top: top + height + scrollY,
+  };
 }
 
 type AppProps = {
-    styleContainer: HTMLElement
-    targetElement:  Element
-    onVehicle:      any
-    onCancel:       any
+  styleContainer: HTMLElement;
+  targetElement: Element;
+  onVehicle: (vehicle: RdwOpenDataVehicle) => void;
+  onCancel: () => void;
 };
 
 /**
@@ -47,30 +51,28 @@ type AppProps = {
  * @param {Function}    onVehicle
  * @param {Function}    onCancel
  */
-const App = ({ styleContainer, targetElement, onVehicle, onCancel }: AppProps) => (
-    <StyleSheetManager
-        target={ styleContainer }
-    >
-        <Theme>
-            <Window
-                data-testid="kentekenpls-window"
-                { ...getTargetElementPosition(targetElement) }
-            >
-                { isValidTag(targetElement) ? (
-                    <Selector
-                        onVehicle={ onVehicle }
-                        onCancel={ onCancel }
-                    />
-                ) : (
-                    <Error
-                        onClose={ onCancel }
-                    >
-                        Kenteken, pls werkt helaas nog niet voor het huidige element.
-                    </Error>
-                ) }
-            </Window>
-        </Theme>
-    </StyleSheetManager>
+const App = ({
+  styleContainer,
+  targetElement,
+  onVehicle,
+  onCancel,
+}: AppProps) => (
+  <StyleSheetManager target={styleContainer}>
+    <Theme>
+      <Window
+        data-testid="kentekenpls-window"
+        {...getTargetElementPosition(targetElement)}
+      >
+        {isValidTag(targetElement) ? (
+          <Selector onVehicle={onVehicle} onCancel={onCancel} />
+        ) : (
+          <ErrorMessage onClose={onCancel}>
+            Kenteken, pls werkt helaas nog niet voor het huidige element.
+          </ErrorMessage>
+        )}
+      </Window>
+    </Theme>
+  </StyleSheetManager>
 );
 
 export default App;

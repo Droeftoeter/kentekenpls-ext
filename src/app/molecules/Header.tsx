@@ -1,39 +1,40 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { PersonWithFoldingHands } from '../emoji';
-import { IconButton, Loader } from '../atoms';
-import * as Icons from '../icons';
+import { PersonWithFoldingHands } from "../emoji";
+import { IconButton, Loader } from "../atoms";
+import * as Icons from "../icons";
 
 type HeaderProps = JSX.IntrinsicElements["header"] & {
-    loading?:  boolean
-    onBack?:   () => void
-    onCancel?: () => void
+  loading?: boolean;
+  onBack?: () => void;
+  onCancel?: () => void;
 };
 
-const Header = ({ className, children, loading, onBack, onCancel }: HeaderProps) => (
-    <header
-        className={ className }
-        aria-busy={ loading ? true : undefined }
-    >
-        { loading ? <Loader /> : onBack ? (
-            <IconButton
-                onClick={ onBack }
-                aria-label="Back"
-            >
-                <Icons.ArrowBack />
-            </IconButton>
-        ) : <PersonWithFoldingHands /> }
-        <span>{ children }</span>
-        { onCancel && (
-            <IconButton
-                onClick={ onCancel }
-                aria-label="Close"
-            >
-                <Icons.Close />
-            </IconButton>
-        ) }
-    </header>
+const Header = ({
+  className,
+  children,
+  loading,
+  onBack,
+  onCancel,
+}: HeaderProps) => (
+  <header className={className} aria-busy={loading ? true : undefined}>
+    {loading ? (
+      <Loader title="Bezig met laden" />
+    ) : onBack ? (
+      <IconButton onClick={onBack} aria-label="Back">
+        <Icons.ArrowBack title="Terug" />
+      </IconButton>
+    ) : (
+      <PersonWithFoldingHands title="Kenteken, pls" />
+    )}
+    <span>{children}</span>
+    {onCancel && (
+      <IconButton onClick={onCancel} aria-label="Close">
+        <Icons.Close title="Sluiten" />
+      </IconButton>
+    )}
+  </header>
 );
 
 export default styled(Header)`
@@ -41,7 +42,7 @@ export default styled(Header)`
 
     height:        3rem;
     border-radius: .25rem .25rem 0 0;
-    background:    ${ props => props.theme.surfaceColor };
+    background:    ${(props) => props.theme.surfaceColor};
     position:      relative;
     z-index:       1;
 
@@ -49,7 +50,7 @@ export default styled(Header)`
     flex-direction: row;
     align-items:    center;
 
-    color: ${ props => props.theme.subtleTextColor };
+    color: ${(props) => props.theme.subtleTextColor};
 
     & > svg {
         width:  2rem;
@@ -61,10 +62,10 @@ export default styled(Header)`
     }
 
     &:not(:only-child) {
-        border-bottom: .0625rem solid ${ props => props.theme.borderColor };
+        border-bottom: .0625rem solid ${(props) => props.theme.borderColor};
     }
 
-    ${ IconButton }:last-child {
+    ${IconButton}:last-child {
         margin-left: auto;
     }
 `;
