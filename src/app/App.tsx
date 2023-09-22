@@ -3,9 +3,10 @@ import { StyleSheetManager } from "styled-components";
 
 import Theme from "./Theme";
 
-import { Error } from "./molecules";
+import { ErrorMessage } from "./molecules";
 import { Selector } from "./organisms";
 import { Window } from "./templates";
+import { RdwOpenDataVehicle } from "../common/types";
 
 /**
  * Check if the element is INPUT or TEXTAREA
@@ -37,8 +38,8 @@ function getTargetElementPosition(element: Element): {
 type AppProps = {
   styleContainer: HTMLElement;
   targetElement: Element;
-  onVehicle: any;
-  onCancel: any;
+  onVehicle: (vehicle: RdwOpenDataVehicle) => void;
+  onCancel: () => void;
 };
 
 /**
@@ -65,9 +66,9 @@ const App = ({
         {isValidTag(targetElement) ? (
           <Selector onVehicle={onVehicle} onCancel={onCancel} />
         ) : (
-          <Error onClose={onCancel}>
+          <ErrorMessage onClose={onCancel}>
             Kenteken, pls werkt helaas nog niet voor het huidige element.
-          </Error>
+          </ErrorMessage>
         )}
       </Window>
     </Theme>

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { JSX } from "react";
 import styled from "styled-components";
 
-type IconButtonProps = JSX.IntrinsicElements["a"];
+type IconButtonProps = JSX.IntrinsicElements["button"];
 
 const IconButton = ({
   className,
@@ -9,18 +9,13 @@ const IconButton = ({
   children,
   ...rest
 }: IconButtonProps) => (
-  <a
-    className={className}
-    role="button"
-    onClick={onClick}
-    tabIndex={1}
-    {...rest}
-  >
+  <button type="button" className={className} onClick={onClick} {...rest}>
     {children}
-  </a>
+  </button>
 );
 
 export default styled(IconButton)`
+    all: unset;
     height: 2rem;
     width:  2rem;
     cursor: pointer;

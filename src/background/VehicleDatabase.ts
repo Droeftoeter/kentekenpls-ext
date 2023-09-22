@@ -94,7 +94,7 @@ export default class VehicleDatabase extends Dexie {
         }
       })
       .catch((error) => {
-        console.error(`Error while cleaning up internal database:`, error);
+        console.error("Error while cleaning up internal database:", error);
       });
   }
 }

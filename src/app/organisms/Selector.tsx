@@ -5,7 +5,7 @@ import { RdwOpenDataVehicle } from "../../common/types";
 
 import * as Icons from "../icons";
 import { Option } from "../atoms";
-import { Header, Slider, Error } from "../molecules";
+import { Header, Slider, ErrorMessage } from "../molecules";
 
 import categories from "../categories";
 
@@ -52,7 +52,7 @@ const Selector = ({ onVehicle, onCancel }: SelectProps) => {
   }, [getVehicle, category, activeChild]);
 
   if (error) {
-    return <Error onClose={onCancel}>{error}</Error>;
+    return <ErrorMessage onClose={onCancel}>{error}</ErrorMessage>;
   }
 
   if (!category) {
@@ -82,7 +82,7 @@ const Selector = ({ onVehicle, onCancel }: SelectProps) => {
                 "items" in item ? (
                   <Option
                     key={item.id}
-                    icon={<Icons.ArrowForward />}
+                    icon={<Icons.ArrowForward title="Openen" />}
                     active={activeChild === index}
                     onClick={() => push(item)}
                   >
@@ -91,7 +91,7 @@ const Selector = ({ onVehicle, onCancel }: SelectProps) => {
                 ) : (
                   <Option
                     key={item.id}
-                    icon={<Icons.Input />}
+                    icon={<Icons.Input title="Voertuig ophalen" />}
                     active={activeChild === index}
                     onClick={() => getVehicle(item.id, item.where, onVehicle)}
                   >

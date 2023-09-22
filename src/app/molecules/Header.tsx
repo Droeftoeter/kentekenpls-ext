@@ -20,18 +20,18 @@ const Header = ({
 }: HeaderProps) => (
   <header className={className} aria-busy={loading ? true : undefined}>
     {loading ? (
-      <Loader />
+      <Loader title="Bezig met laden" />
     ) : onBack ? (
       <IconButton onClick={onBack} aria-label="Back">
-        <Icons.ArrowBack />
+        <Icons.ArrowBack title="Terug" />
       </IconButton>
     ) : (
-      <PersonWithFoldingHands />
+      <PersonWithFoldingHands title="Kenteken, pls" />
     )}
     <span>{children}</span>
     {onCancel && (
       <IconButton onClick={onCancel} aria-label="Close">
-        <Icons.Close />
+        <Icons.Close title="Sluiten" />
       </IconButton>
     )}
   </header>

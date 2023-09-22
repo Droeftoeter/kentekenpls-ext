@@ -33,6 +33,7 @@
     "watch": "npm run clean && parcel watch --no-source-maps --no-hmr",
     "build": "npm run clean && parcel build --no-source-maps",
     "test": "playwright test",
+    "check": "biome check ./",
     "format": "biome format --write ./src",
     "bundle-report": "npm run clean && parcel build --no-source-maps --reporter @parcel/reporter-bundle-analyzer"
   },

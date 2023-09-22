@@ -6,7 +6,7 @@ import findMatchingVehicle from "./findMatchingVehicle";
 async function openInCurrentTab() {
   const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
 
-  if (tab && tab.id) {
+  if (tab?.id) {
     browser.tabs.sendMessage(tab.id, { action: "open" });
   }
 }
@@ -18,7 +18,7 @@ async function createMenu(): Promise<void> {
   browser.contextMenus.create({
     id: "kenteken-pls",
     title: `Kenteken invoegen ${
-      shortCut && shortCut.shortcut ? `(${shortCut.shortcut})` : ""
+      shortCut?.shortcut ? `(${shortCut.shortcut})` : ""
     }`.trim(),
     contexts: ["editable"],
   });

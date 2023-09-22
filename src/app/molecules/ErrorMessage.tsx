@@ -8,18 +8,18 @@ type ErrorProps = JSX.IntrinsicElements["div"] & {
   onClose: () => void;
 };
 
-const Error = ({ className, children, onClose }: ErrorProps) => (
+const ErrorMessage = ({ className, children, onClose }: ErrorProps) => (
   <>
     <Header onCancel={onClose} />
     <div className={className}>
-      <SadCat />
+      <SadCat title="Error" />
       <h1>Oeps! Foutje!</h1>
       <p>{children}</p>
     </div>
   </>
 );
 
-export default styled(Error)`
+export default styled(ErrorMessage)`
     display:        flex;
     flex-direction: column;
 

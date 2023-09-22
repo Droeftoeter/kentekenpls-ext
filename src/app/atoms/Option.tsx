@@ -13,7 +13,7 @@ const Option = ({
   active,
   ...rest
 }: OptionProps) => (
-  <a className={className} tabIndex={1} {...rest}>
+  <a className={className} {...rest}>
     {children}
     {icon}
   </a>

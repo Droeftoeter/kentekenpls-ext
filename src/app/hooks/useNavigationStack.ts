@@ -46,7 +46,7 @@ function reducer(state: State, action: Action): State {
 
       return state;
 
-    case "enter-selected":
+    case "enter-selected": {
       if (!category || !category.items[state.activeChild]) {
         return state;
       }
@@ -63,6 +63,7 @@ function reducer(state: State, action: Action): State {
       }
 
       return state;
+    }
 
     case "push":
       return {
@@ -72,7 +73,7 @@ function reducer(state: State, action: Action): State {
         activeChild: 0,
       };
 
-    case "pop":
+    case "pop": {
       if (state.stack.length <= 1) {
         return state;
       }
@@ -89,6 +90,7 @@ function reducer(state: State, action: Action): State {
         selectionStack: nextSelectionStack,
         activeChild: lastActiveChild ?? 0,
       };
+    }
 
     default:
       return state;
