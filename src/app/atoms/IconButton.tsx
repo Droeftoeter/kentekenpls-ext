@@ -1,18 +1,23 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 type IconButtonProps = JSX.IntrinsicElements["a"];
 
-const IconButton = ({ className, onClick, children, ...rest }: IconButtonProps) => (
-    <a
-        className={ className }
-        role="button"
-        onClick={ onClick }
-        tabIndex={ 1 }
-        { ...rest }
-    >
-        { children }
-    </a>
+const IconButton = ({
+  className,
+  onClick,
+  children,
+  ...rest
+}: IconButtonProps) => (
+  <a
+    className={className}
+    role="button"
+    onClick={onClick}
+    tabIndex={1}
+    {...rest}
+  >
+    {children}
+  </a>
 );
 
 export default styled(IconButton)`
@@ -23,7 +28,7 @@ export default styled(IconButton)`
     border-radius: 1rem;
 
     svg {
-        fill:   ${ props => props.theme.iconColor };
+        fill:   ${(props) => props.theme.iconColor};
         height: auto;
         width:  1.25rem;
         margin: .375rem;
@@ -38,7 +43,7 @@ export default styled(IconButton)`
     }
 
     &:hover, &:focus {
-        background: ${ props => props.theme.focusColor };
+        background: ${(props) => props.theme.focusColor};
         outline:    none;
     }
 `;

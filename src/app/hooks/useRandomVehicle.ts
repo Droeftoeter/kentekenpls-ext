@@ -1,26 +1,33 @@
-import { useState } from 'react';
+import { useState } from "react";
 import browser from "webextension-polyfill";
 
-import { RdwOpenDataVehicle } from '../../common/types';
+import { RdwOpenDataVehicle } from "../../common/types";
 
 export default function useRandomVehicle() {
-    const [ loading, setLoading ] = useState(false);
-    const [ error, setError ] = useState<string|null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-    const getVehicle = async (id: string, where: string[], callback: (vehicle: RdwOpenDataVehicle) => void) => {
-        setLoading(true);
+  const getVehicle = async (
+    id: string,
+    where: string[],
+    callback: (vehicle: RdwOpenDataVehicle) => void,
+  ) => {
+    setLoading(true);
 
-        try {
-            const vehicle = await browser.runtime.sendMessage(undefined, { action: 'fetch-vehicle', payload: { id, where } }) as RdwOpenDataVehicle;
-            callback(vehicle);
-        } catch (e: unknown) {
-            console.error(e);
+    try {
+      const vehicle = (await browser.runtime.sendMessage(undefined, {
+        action: "fetch-vehicle",
+        payload: { id, where },
+      })) as RdwOpenDataVehicle;
+      callback(vehicle);
+    } catch (e: unknown) {
+      console.error(e);
 
-            setError(String(e));
-        } finally {
-            setLoading(false);
-        }
-    };
+      setError(String(e));
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return { getVehicle, loading, error };
+  return { getVehicle, loading, error };
 }

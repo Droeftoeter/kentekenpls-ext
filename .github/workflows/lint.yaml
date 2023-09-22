@@ -1,0 +1,17 @@
+name: Lint
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  test:
+    name: Lint
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: biomejs/setup-biome@v1
+        with:
+          version: latest
+      - uses: actions/checkout@v3
+      - run: biome ci .
