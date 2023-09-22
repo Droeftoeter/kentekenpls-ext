@@ -5,7 +5,8 @@ export const test = base.extend<{
   context: BrowserContext;
   openExtension: () => Promise<void>;
 }>({
-  context: async (_, use) => {
+  // biome-ignore lint/correctness/noEmptyPattern: <explanation>
+  context: async ({}, use) => {
     const pathToExtension = path.join(__dirname, "../extension/dist/chrome");
     const dataDir = path.join(__dirname, "../.chromium");
 
