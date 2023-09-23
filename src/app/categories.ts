@@ -23,7 +23,7 @@ const Where = {
   Caravan: "inrichting = 'caravan'",
 
   // Import
-  Import: "datum_eerste_toelating < datum_eerste_afgifte_nederland",
+  Import: "datum_eerste_toelating < datum_eerste_tenaamstelling_in_nederland",
 
   // Wielen
   TweeWielen: "aantal_wielen = 2",
@@ -31,8 +31,8 @@ const Where = {
   VierWielen: "aantal_wielen = 4",
 
   // Constr.Snelheid
-  Max45: "maximale_constructiesnelheid_brom_snorfiets = 45",
-  Max25: "maximale_constructiesnelheid_brom_snorfiets = 25",
+  Max45: "maximale_constructiesnelheid = 45",
+  Max25: "maximale_constructiesnelheid = 25",
 
   // Kampeerwagen
   GeenCamper: "inrichting != 'kampeerwagen'",
