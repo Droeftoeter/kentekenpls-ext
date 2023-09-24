@@ -153,7 +153,7 @@ const categories: Category = {
             Where.GeenTaxi,
             Where.GeenOldtimer,
             Where.GeenCamper,
-            `datum_eerste_afgifte_nederland >= ${queryFormat(
+            `datum_eerste_tenaamstelling_in_nederland >= ${queryFormat(
               subDays(new Date(), 2),
             )}`,
           ],
