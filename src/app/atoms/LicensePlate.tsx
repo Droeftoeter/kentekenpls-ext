@@ -26,6 +26,7 @@ const LicensePlate = ({
           role="img"
           viewBox="0 0 161.74 321.7"
           preserveAspectRatio="xMinYMin"
+          title={licensePlate}
         >
           <polygon
             points="68.085 231.7 68.085 290.3 36.719 231.41 21.719 231.41 21.719 321.41 36.719 321.41 36.719 262.53 68.085 321.41 68.085 321.7 83.085 321.7 83.085 231.7"
