@@ -49,7 +49,7 @@ const Selector = ({ onVehicle, onCancel }: SelectProps) => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [getVehicle, category, activeChild]);
+  }, [getVehicle, onVehicle, onCancel, category, activeChild]);
 
   if (error) {
     return <ErrorMessage onClose={onCancel}>{error}</ErrorMessage>;

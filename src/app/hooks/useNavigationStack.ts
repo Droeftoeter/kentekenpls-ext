@@ -139,7 +139,7 @@ export default function useNavigationStack(root: Category) {
     return () => {
       document.removeEventListener("keydown", handleShortcut);
     };
-  }, [dispatch]);
+  }, []);
 
   return { stack: state.stack, activeChild: state.activeChild, push, pop };
 }
