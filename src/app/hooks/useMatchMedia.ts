@@ -1,20 +1,22 @@
-import { useState, useEffect } from "react";
+import { useMemo, useSyncExternalStore } from "react";
+
+function createMatchMediaStore(query: string) {
+  const mql = window.matchMedia(query);
+
+  return {
+    subscribe: (callback: () => void) => {
+      mql.addEventListener("change", callback);
+
+      return () => {
+        mql.removeEventListener("change", callback);
+      };
+    },
+    getSnapshot: () => mql.matches,
+  };
+}
 
 export default function useMatchMedia(query: string): boolean {
-  const [matches, setMatches] = useState(false);
+  const store = useMemo(() => createMatchMediaStore(query), [query]);
 
-  useEffect(() => {
-    const update = (event: MediaQueryListEvent) => setMatches(event.matches);
-
-    const media = window.matchMedia(query);
-    media.addEventListener("change", update);
-
-    setMatches(media.matches);
-
-    return () => {
-      media.removeEventListener("change", update);
-    };
-  }, [query]);
-
-  return matches;
+  return useSyncExternalStore(store.subscribe, store.getSnapshot);
 }
