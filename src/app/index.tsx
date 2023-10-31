@@ -1,6 +1,5 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import retargetEvents from "react-shadow-dom-retarget-events";
 import browser from "webextension-polyfill";
 
 import { RdwOpenDataVehicle, BrowserMessage } from "../common/types";
@@ -73,8 +72,6 @@ function injectApp(targetElement: Element | HTMLInputElement | null) {
       onCancel={removeApp}
     />,
   );
-
-  retargetEvents(shadowRoot);
 
   return removeApp;
 }

@@ -1,9 +1,10 @@
-import ky from "ky";
-
+import { getLicensePlateCount, getVehicles } from "../api/client";
 import { RdwOpenDataVehicle } from "../common/types";
+
 import VehicleDatabase from "./VehicleDatabase";
 
 const VehicleDb = new VehicleDatabase();
+const MAX_VEHICLES = 40;
 
 /**
  * Grabs a random offset for the result-set based on the amount of available items.
@@ -46,22 +47,10 @@ async function fetchVehicles(
 ): Promise<RdwOpenDataVehicle[]> {
   const flatWhere = where.join(" AND ");
 
-  const result = await ky
-    .get(
-      `https://opendata.rdw.nl/resource/m9d7-ebf2.json?$select=count(kenteken)&$where=${flatWhere}`,
-      { timeout: 300000, credentials: "omit" },
-    )
-    .json<{ count_kenteken?: number }[]>();
+  const totalVehicles = await getLicensePlateCount(flatWhere);
+  const randomOffset = getRandomOffset(totalVehicles, MAX_VEHICLES);
 
-  const totalVehicles = Number(result[0].count_kenteken ?? 0);
-
-  const offset = getRandomOffset(totalVehicles, 40);
-  return await ky
-    .get(
-      `https://opendata.rdw.nl/resource/m9d7-ebf2.json?$where=${flatWhere}&$limit=40&$offset=${offset}`,
-      { timeout: 300000, credentials: "omit" },
-    )
-    .json<RdwOpenDataVehicle[]>();
+  return getVehicles(flatWhere, randomOffset, MAX_VEHICLES);
 }
 
 /**
