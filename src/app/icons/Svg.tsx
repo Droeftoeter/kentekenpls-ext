@@ -6,7 +6,7 @@ export type SvgProps = JSX.IntrinsicElements["svg"] & {
 };
 
 const Svg = ({ title, desc, children, ...rest }: SvgProps) => (
-  <svg xmlns="http://www.w3.org/2000/svg" role="img" {...rest}>
+  <svg xmlns="http://www.w3.org/2000/svg" {...rest}>
     <title>{title}</title>
     {desc && <desc>{desc}</desc>}
     {children}
