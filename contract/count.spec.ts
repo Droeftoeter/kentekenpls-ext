@@ -1,3 +1,5 @@
+import { test, expect } from "vitest";
+
 import { getLicensePlateCount } from "../src/api/client";
 
 test("successfully retrieves amount of blue vehicles", async () => {

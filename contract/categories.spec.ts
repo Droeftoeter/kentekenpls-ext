@@ -1,3 +1,5 @@
+import { describe, test, expect } from "vitest";
+
 import { getVehicles } from "../src/api/client";
 import categories from "../src/app/categories";
 import { Category, Query } from "../src/common/types";
