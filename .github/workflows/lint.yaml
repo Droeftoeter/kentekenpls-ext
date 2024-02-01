@@ -10,8 +10,6 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-      - uses: biomejs/setup-biome@v1
-        with:
-          version: latest
+      - uses: biomejs/setup-biome@v2
       - uses: actions/checkout@v3
       - run: biome ci .
