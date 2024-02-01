@@ -22,6 +22,7 @@ const Selector = ({ onVehicle, onCancel }: SelectProps) => {
   const { getVehicle, loading, error } = useRandomVehicle();
 
   const category = stack.slice(-1).shift();
+  const query = category?.items[activeChild];
 
   /**
    * Deal with keyboard shortcuts
@@ -32,12 +33,7 @@ const Selector = ({ onVehicle, onCancel }: SelectProps) => {
         onCancel();
       }
 
-      if (
-        category &&
-        (key === "Enter" || key === " " || key === "ArrowRight")
-      ) {
-        const query = category.items[activeChild];
-
+      if (query && (key === "Enter" || key === " " || key === "ArrowRight")) {
         if ("where" in query) {
           await getVehicle(query.id, query.where, onVehicle);
         }
@@ -49,7 +45,7 @@ const Selector = ({ onVehicle, onCancel }: SelectProps) => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [getVehicle, onVehicle, onCancel, category, activeChild]);
+  }, [getVehicle, onVehicle, onCancel, query]);
 
   if (error) {
     return <ErrorMessage onClose={onCancel}>{error}</ErrorMessage>;

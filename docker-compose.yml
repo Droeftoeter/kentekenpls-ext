@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     node:
-        image: node:18
+        image: node:20
         user: 1000:1000
         environment:
             TZ: "Europe/Amsterdam"
