@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 
-import { RdwOpenDataVehicle } from "../../common/types";
+import type { RdwOpenDataVehicle } from "../../common/types";
 
 import * as Icons from "../icons";
 import { Option } from "../atoms";
@@ -75,6 +75,7 @@ const Selector = ({ onVehicle, onCancel }: SelectProps) => {
           {stack.map((category) => (
             <div key={category.id}>
               {category.items.map((item, index) =>
+                // biome-ignore lint/correctness/useJsxKeyInIterable: all child
                 "items" in item ? (
                   <Option
                     key={item.id}

@@ -1,6 +1,6 @@
 import React from "react";
 
-import Svg, { SvgProps } from "./Svg";
+import Svg, { type SvgProps } from "./Svg";
 
 /**
  * @copyright Google

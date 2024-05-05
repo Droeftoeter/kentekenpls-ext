@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from "react";
 
-import { Category } from "../../common/types";
+import type { Category } from "../../common/types";
 
 type State = {
   stack: Category[];

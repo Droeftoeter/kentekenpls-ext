@@ -1,5 +1,5 @@
 import ky from "ky";
-import { Type, Static } from "@sinclair/typebox";
+import { Type, type Static } from "@sinclair/typebox";
 import { Value } from "@sinclair/typebox/value";
 
 export class UnexpectedError extends Error {}

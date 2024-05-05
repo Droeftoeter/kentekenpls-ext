@@ -2,7 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import browser from "webextension-polyfill";
 
-import { RdwOpenDataVehicle, BrowserMessage } from "../common/types";
+import type { RdwOpenDataVehicle, BrowserMessage } from "../common/types";
 
 import App from "./App";
 

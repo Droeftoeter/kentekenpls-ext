@@ -1,6 +1,6 @@
 import Dexie from "dexie";
 
-import { RdwOpenDataVehicle } from "../common/types";
+import type { RdwOpenDataVehicle } from "../common/types";
 
 interface StoredRdwOpenDataVehicle extends RdwOpenDataVehicle {
   id?: number;

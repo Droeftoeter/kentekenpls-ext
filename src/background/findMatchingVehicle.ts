@@ -1,5 +1,5 @@
 import { getLicensePlateCount, getVehicles } from "../api/client";
-import { RdwOpenDataVehicle } from "../common/types";
+import type { RdwOpenDataVehicle } from "../common/types";
 
 import VehicleDatabase from "./VehicleDatabase";
 
