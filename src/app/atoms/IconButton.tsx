@@ -1,4 +1,4 @@
-import React, { JSX } from "react";
+import React, { type JSX } from "react";
 import styled from "styled-components";
 
 type IconButtonProps = JSX.IntrinsicElements["button"];

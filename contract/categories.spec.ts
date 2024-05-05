@@ -2,7 +2,7 @@ import { describe, test, expect } from "vitest";
 
 import { getVehicles } from "../src/api/client";
 import categories from "../src/app/categories";
-import { Category, Query } from "../src/common/types";
+import type { Category, Query } from "../src/common/types";
 
 const isQuery = (item: Category | Query): item is Query => "where" in item;
 

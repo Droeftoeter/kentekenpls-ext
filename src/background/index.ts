@@ -1,6 +1,6 @@
 import browser from "webextension-polyfill";
 
-import { BrowserMessage } from "../common/types";
+import type { BrowserMessage } from "../common/types";
 import findMatchingVehicle from "./findMatchingVehicle";
 
 async function openInCurrentTab() {

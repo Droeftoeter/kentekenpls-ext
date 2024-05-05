@@ -1,6 +1,6 @@
 import React from "react";
 
-import Svg, { SvgProps } from "../icons/Svg";
+import Svg, { type SvgProps } from "../icons/Svg";
 
 const SadCat = (props: SvgProps) => (
   <Svg

@@ -6,7 +6,7 @@ import Theme from "./Theme";
 import { ErrorMessage } from "./molecules";
 import { Selector } from "./organisms";
 import { Window } from "./templates";
-import { RdwOpenDataVehicle } from "../common/types";
+import type { RdwOpenDataVehicle } from "../common/types";
 
 /**
  * Check if the element is INPUT or TEXTAREA

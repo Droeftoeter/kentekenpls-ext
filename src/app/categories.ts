@@ -1,5 +1,5 @@
 import { subDays, queryFormat } from "./utils/date";
-import { Category } from "../common/types";
+import type { Category } from "../common/types";
 
 const HighRiskOfTheft = [
   "handelsbenaming = 'MITSUBISHI OUTLANDER' AND cilinderinhoud = 2360 AND datum_eerste_toelating >= 20140101", // Mitsubishi Outlander PHEV

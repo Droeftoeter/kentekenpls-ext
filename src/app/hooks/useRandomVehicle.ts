@@ -1,7 +1,7 @@
 import { useState } from "react";
 import browser from "webextension-polyfill";
 
-import { RdwOpenDataVehicle } from "../../common/types";
+import type { RdwOpenDataVehicle } from "../../common/types";
 
 export default function useRandomVehicle() {
   const [loading, setLoading] = useState(false);

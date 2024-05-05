@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { ThemeProvider } from "styled-components";
 
 import useMatchMedia from "./hooks/useMatchMedia";
